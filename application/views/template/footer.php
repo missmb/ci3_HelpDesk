@@ -55,10 +55,7 @@
                     $(this).next('.custom-file-label').addClass("selected").html(fileName);
                 });
 
-
-
-
-
+                //checkbox on user access menu
                 $('.form-check-input').on('click', function() {
                     const menuId = $(this).data('menu');
                     const roleId = $(this).data('role');
@@ -78,6 +75,7 @@
                     console.log(menuId);
                 });
 
+                //fill modal edit menu
                 $('#editMenu').on('show.bs.modal', function(event) {
                     let id = $(event.relatedTarget).data('id')
                     let menu = $(event.relatedTarget).data('menu')
@@ -85,6 +83,7 @@
                     $(this).find('.modal-body #menu').val(menu)
                 })
 
+                //fill modal edit sub menu
                 $('#editSubMenu').on('show.bs.modal', function(event) {
                     let id = $(event.relatedTarget).data('id')
                     let menu_id = $(event.relatedTarget).data('menu_id')
@@ -99,6 +98,26 @@
                     $(this).find('.modal-body #icon').val(icon)
                     $(this).find('.modal-body #is_active').val(is_active)
                 })
+
+                // checkbox on problem solve alone
+                $('.form-check-solve').on('click', function() {
+                    const menuId = $(this).data('menu');
+                    const roleId = $(this).data('role');
+
+                    $.ajax({
+                        url: "<?= base_url('admin/changeaccess'); ?>",
+                        type: 'post',
+                        data: {
+                            menuId: menuId,
+                            roleId: roleId
+                        },
+                        success: function() {
+                            document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleId;
+                        }
+                    });
+                    console.log("<?= base_url('admin/roleaccess/'); ?>" + roleId);
+                    console.log(menuId);
+                });
             </script>
             </body>
 
