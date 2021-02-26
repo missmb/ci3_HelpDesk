@@ -11,6 +11,7 @@ class User extends CI_Controller
         is_logged_in();
     }
 
+    //detail profile user
     public function index()
     {
         $data['title'] = 'My Profile';
@@ -24,6 +25,7 @@ class User extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
+    //edit profile user
     public function edit()
     {
         $data['title'] = 'Edit Profile';
@@ -74,6 +76,7 @@ class User extends CI_Controller
         }
     }
 
+    //user change password
     public function changePassword()
     {
         $data['title'] = 'Change Password';
@@ -111,5 +114,25 @@ class User extends CI_Controller
                 }
             }
         }
+    }
+
+    //user dashboard
+    public function dashboard()
+    {
+        $data['title'] = 'Dashboard';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+
+        //total data
+        $data['sum_user'] = $this->User_Model->SumUser();
+        $data['sum_ticket'] = $this->User_Model->SumTicket();
+        $data['sum_status_ticket'] = $this->User_Model->SumStatusTicket();
+        // var_dump($data['sum_user']);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('user/dashboard', $data);
+        $this->load->view('template/footer', $data);
     }
 }

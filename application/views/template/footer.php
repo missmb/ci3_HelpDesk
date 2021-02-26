@@ -81,7 +81,7 @@
                     let menu = $(event.relatedTarget).data('menu')
                     $(this).find('.modal-body #menu_id').val(id)
                     $(this).find('.modal-body #menu').val(menu)
-                })
+                });
 
                 //fill modal edit sub menu
                 $('#editSubMenu').on('show.bs.modal', function(event) {
@@ -97,7 +97,7 @@
                     $(this).find('.modal-body #url').val(url)
                     $(this).find('.modal-body #icon').val(icon)
                     $(this).find('.modal-body #is_active').val(is_active)
-                })
+                });
 
                 // checkbox on problem solve alone
                 $('.form-check-solve').on('click', function() {

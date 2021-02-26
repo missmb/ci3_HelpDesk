@@ -45,13 +45,13 @@
                     <label for="detail" class="col-sm-3 control-label">Detail</label>
                     <textarea class="form-control col-sm-9" placeholder="explain your details problem" id="detail" name="detail" style="height: 100px"></textarea>
                 </div>
-                <!-- <div class="form-check row">
+                <div class="form-check row">
                 <label for="solve" class="col-sm-3 control-label">Solve</label>
                     <input class="form-check-solve" type="checkbox" value="3" id="solve">
                     <label class="form-check-label" for="solve">
                         Can Solve Alone ?
                     </label>
-                </div> -->
+                </div>
                 <div class="form-group row">
                     <label for="technician" class="col-sm-3 control-label">technician</label>
                     <select name="technician" id="technician" class="form-control col-sm-9">
