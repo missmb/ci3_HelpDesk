@@ -100,25 +100,39 @@
                 });
 
                 // checkbox on problem solve alone
-                // $('.form-check-solve').on('click', function() {
-                //     const menuId = $(this).data('menu');
-                //     const roleId = $(this).data('role');
-
-                //     $.ajax({
-                //         url: "<?= base_url('admin/changeaccess'); ?>",
-                //         type: 'post',
-                //         data: {
-                //             menuId: menuId,
-                //             roleId: roleId
-                //         },
-                //         success: function() {
-                //             document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleId;
-                //         }
-                //     });
-                //     console.log("<?= base_url('admin/roleaccess/'); ?>" + roleId);
-                //     console.log(menuId);
-                // });
+                $('.form-check-solve').on('click', function() {
+                    if (this.checked == true) {
+                        alert('change to check');
+                    } else if (this.checked == false) {
+                        alert('change to not');
+                        // let fileName = $(this).val().split('\\').pop();
+                        // $(this).next('.custom-file-label').addClass("selected").html(fileName);
+                        $('#techniciannn').attr("disabled");
+                    }
+                });
             </script>
+            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+            <script type="text/javascript">
+                new Chart(document.getElementById("doughnut-chart"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                        datasets: [{
+                            label: "Population (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                            data: [1,1, 1, 1, 1]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Predicted world population (millions) in 2050'
+                        }
+                    }
+                });
+            </script>
+            </body>
             </body>
 
             </html>
