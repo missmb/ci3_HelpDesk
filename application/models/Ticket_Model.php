@@ -29,11 +29,11 @@ class Ticket_Model extends CI_Model
         $ticket_id = $d . $mnth . $coo;
 
         //checkbox solve
-        // if ($this->input->post('solve') == NULL ){
-        //     $solve = '1';
-        // } else{
-        //     $solve = $this->input->post('solve');
-        // }
+        if ($this->input->post('solve') == NULL ){
+            $solve = '1';
+        } else{
+            $solve = $this->input->post('solve');
+        }
         
         //data form insert
         $this->db->insert('TICKET', [
@@ -49,7 +49,7 @@ class Ticket_Model extends CI_Model
             'ID_CATEGORY' => $this->input->post('category'),
             'DETAIL' => $this->input->post('detail'),
             // status default sedang dikerjakan
-            // 'ID_STATUS' => $solve,
+            'ID_STATUS' => $solve,
             //get time now
             'DATE_INSERT' => Date('d-M-y'),
             // 'DATE_INSERT' => Date('d-M-y h:i:s')
@@ -60,5 +60,11 @@ class Ticket_Model extends CI_Model
     public function Delete($id)
     {
         $this->db->delete('TICKET', array('ID_TICKET' => $id));
+    }
+
+    //Search Email Technician
+    public function EmailTechnician($id){
+        $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id ;
+        return $this->db->query($query)->row_array();
     }
 }
