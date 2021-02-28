@@ -9,7 +9,7 @@ class Ticket extends CI_Controller
     {
         $data['title'] = 'Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         $data['ticket'] = $this->Ticket_Model->Ticket();
 
         $this->load->view('template/header', $data);
@@ -23,7 +23,7 @@ class Ticket extends CI_Controller
     {
         $data['title'] = 'Add Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         //get all data from table divisi
         $data['divisi'] = $this->db->get('DIVISI')->result_array();
         //get all data from table category

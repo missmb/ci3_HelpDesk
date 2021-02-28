@@ -37,7 +37,7 @@
                             <th scope="col"><?= $sm['IS_ACTIVE']; ?></th>
                             <th scope="col">
                             <a data-toggle="modal" data-id=<?= $sm['SUB_ID']; ?> data-menu_id=<?= $sm['MENU_ID'] ; ?> data-title="<?= $sm['TITLE'] ; ?>"  data-url=<?= $sm['URL'] ; ?>  data-icon="<?= $sm['ICON'] ; ?>" data-is_active=<?= $sm['IS_ACTIVE'] ; ?> data-target="#editSubMenu" class="badge badge-success">edit</a>
-                                <a href="<?= base_url('menu/deleteSubMenu/' . $sm['SUB_ID']); ?>" class="badge badge-danger">delete</a>
+                                <a href="<?= base_url('admin/deleteSubMenu/' . $sm['SUB_ID']); ?>" class="badge badge-danger">delete</a>
                             </th>
                         </tr>
                         <?php $i++ ?>
@@ -63,7 +63,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('menu/submenu'); ?>" method="POST">
+            <form action="<?= base_url('admin/submenu'); ?>" method="POST">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="title" name="title" placeholder="SubMenu Title">
@@ -109,7 +109,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('menu/editsubmenu'); ?>" method="POST">
+            <form action="<?= base_url('admin/editsubmenu'); ?>" method="POST">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="id" name="id" value="">
                     <div class="form-group">

@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-use App\Models\Menu_Model;
-
 class User extends CI_Controller
 {
     public function __construct()
@@ -17,7 +15,7 @@ class User extends CI_Controller
         $data['title'] = 'My Profile';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
 
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -30,7 +28,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Edit Profile';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
 
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
 
@@ -81,7 +79,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Change Password';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[6]|matches[new_password2]');
@@ -121,7 +119,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
 
         //total data
         $data['sum_user'] = $this->User_Model->SumUser();

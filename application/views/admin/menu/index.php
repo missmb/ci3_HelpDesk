@@ -25,7 +25,7 @@
                             <th scope="col"><?= $m['MENU']; ?></th>
                             <th scope="col">
                                 <a data-toggle="modal" data-id=<?= $m['MENU_ID']; ?> data-menu="<?= $m['MENU']; ?>" data-target="#editMenu" class="badge badge-success">edit</a>
-                                <a href="<?= base_url('menu/delete/' . $m['MENU_ID']); ?>" class="badge badge-danger">delete</a>
+                                <a href="<?= base_url('admin/deletemenu/' . $m['MENU_ID']); ?>" class="badge badge-danger">delete</a>
                             </th>
                         </tr>
                         <?php $i++ ?>
@@ -51,7 +51,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('menu'); ?>" method="POST">
+            <form action="<?= base_url('admin/menu'); ?>" method="POST">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="menu" name="menu" placeholder="Menu Name">
@@ -77,7 +77,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('menu/edit'); ?>" method="POST">
+            <form action="<?= base_url('admin/editmenu'); ?>" method="POST">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="menu_id" name="menu_id" value="">
                     <div class="form-group">

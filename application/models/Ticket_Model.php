@@ -28,6 +28,14 @@ class Ticket_Model extends CI_Model
         $mnth = date("m") . "-";
         $ticket_id = $d . $mnth . $coo;
 
+        //checkbox solve
+        // if ($this->input->post('solve') == NULL ){
+        //     $solve = '1';
+        // } else{
+        //     $solve = $this->input->post('solve');
+        // }
+        
+        //data form insert
         $this->db->insert('TICKET', [
             'ID_TICKET' => $ticket_id,
             //get data from user input
@@ -41,9 +49,9 @@ class Ticket_Model extends CI_Model
             'ID_CATEGORY' => $this->input->post('category'),
             'DETAIL' => $this->input->post('detail'),
             // status default sedang dikerjakan
-            'ID_STATUS' => 1,
+            // 'ID_STATUS' => $solve,
             //get time now
-            'DATE_INSERT' => Date('d-M-y')
+            'DATE_INSERT' => Date('d-M-y'),
             // 'DATE_INSERT' => Date('d-M-y h:i:s')
         ]);
     }

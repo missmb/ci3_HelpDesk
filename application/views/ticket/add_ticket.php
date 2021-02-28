@@ -40,6 +40,7 @@
                             <option value="<?= $v['ID_CATEGORY']; ?>"><?= $v['CATEGORY']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <?= form_error('category', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
                 <div class="form-floating row mb-3">
                     <label for="detail" class="col-sm-3 control-label">Detail</label>
@@ -47,7 +48,7 @@
                 </div>
                 <div class="form-check row">
                 <label for="solve" class="col-sm-3 control-label">Solve</label>
-                    <input class="form-check-solve" type="checkbox" value="3" id="solve">
+                    <input class="form-check-solve" type="checkbox" value="3" id="solve" name="solve">
                     <label class="form-check-label" for="solve">
                         Can Solve Alone ?
                     </label>
