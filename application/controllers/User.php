@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-use App\Models\Menu_Model;
-
 class User extends CI_Controller
 {
     public function __construct()
@@ -11,12 +9,13 @@ class User extends CI_Controller
         is_logged_in();
     }
 
+    //detail profile user
     public function index()
     {
         $data['title'] = 'My Profile';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
 
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -24,11 +23,12 @@ class User extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
+    //edit profile user
     public function edit()
     {
         $data['title'] = 'Edit Profile';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
 
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
 
@@ -74,11 +74,12 @@ class User extends CI_Controller
         }
     }
 
+    //user change password
     public function changePassword()
     {
         $data['title'] = 'Change Password';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Menu_Model->Sidebar();
+        $data['menu'] = $this->Admin_Model->Sidebar();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[6]|matches[new_password2]');
@@ -111,5 +112,25 @@ class User extends CI_Controller
                 }
             }
         }
+    }
+
+    //user dashboard
+    public function dashboard()
+    {
+        $data['title'] = 'Dashboard';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+
+        //total data
+        $data['sum_user'] = $this->User_Model->SumUser();
+        $data['sum_ticket'] = $this->User_Model->SumTicket();
+        $data['sum_status_ticket'] = $this->User_Model->SumStatusTicket();
+        // var_dump($data['sum_user']);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('user/dashboard', $data);
+        $this->load->view('template/footer', $data);
     }
 }
