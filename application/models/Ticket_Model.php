@@ -17,6 +17,25 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function search($keyword)
+    {
+        if ($keyword) {
+            $this->db->like('USER_COMPLAIN', $keyword);
+        }
+    }
+
+    public function details($id)
+    {
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+                        FROM TICKET  T
+                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
+                    WHERE T.ID_TICKET = " . "'" . $id . "'";
+        return $this->db->query($query)->row_array();
+    }
+
     //insert data ticket to table ticket and status
     public function Add()
     {
