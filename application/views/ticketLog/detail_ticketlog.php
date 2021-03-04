@@ -5,22 +5,22 @@
       <div class="card shadow mb-4">
           <div class="card-header py-3 justify-content-between row">
               <h3 class="m-0 font-weight-bold text-primary">Detail Ticket</h3>
-              <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
+              <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET_LOG']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
           </div>
           <div class="row mt-3">
               <div class="col-lg-10">
                   <form action="<?= base_url('ticket/detail_ticket'); ?>">
                       <div class="form-group row">
                           <label for="user_complain" class="col-sm-3 control-label">ID Ticket</label>
-                          <?= $id['ID_TICKET'] ?>
+                          <?= $ticket['ID_TICKET_LOG'] ?>
                       </div>
                       <div class="form-group row">
                           <label for="user_complain" class="col-sm-3 control-label">User Complain</label>
-                          <?= $id['USER_COMPLAIN'] ?>
+                          <?= $ticket['USER_COMPLAIN'] ?>
                       </div>
                       <div class="form-group row">
                           <label for="contact" class="col-sm-3 control-label">Contact</label>
-                          <?= $id['CONTACT'] ?>
+                          <?= $ticket['CONTACT'] ?>
                       </div>
                       <div class="form-group row">
                           <label for="divisi" class="col-sm-3 control-label">Divisi</label>

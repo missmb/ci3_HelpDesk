@@ -21,10 +21,21 @@ class Ticket extends CI_Controller
 
     public function search()
     {
+        $data['title'] = 'Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         //ambil data keyword
-        if ($this->input->post('submit')) {
-            $data['keyword'] = $this->input->post('keyword');
-        }
+        //if ($this->input->post('submit')) {
+        //    $data['keyword'] = $this->input->post('keyword');
+        $keyword = $this->input->post('keyword');
+        $data['ticket'] = $this->Ticket_Model->get_keyword($keyword);
+        // var_dump($data['ticket']);
+        // die();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticket/ticket', $data);
+        $this->load->view('template/footer', $data);
     }
 
     public function add()
@@ -55,6 +66,8 @@ class Ticket extends CI_Controller
         } else {
             //Insert Data Ticket
             $this->Ticket_Model->Add();
+            //Insert Data TicketLog
+            $this->Ticket_Model->AddLog();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
@@ -128,13 +141,58 @@ class Ticket extends CI_Controller
         redirect('ticket');
     }
 
+    // print detail ticket
+    public function print_ticket($id)
+    {
+        $data['title'] = 'Detail Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['ticket'] = $this->Ticket_Model->details($id);
+        $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
 
+        $this->load->view('ticket/print_ticket', $data);
+    }
+
+
+    // ------------------------------ Ticket Log --------------------------------
+
+    //list of tickets log
+    public function ticketlog(){
+        $data['title'] = 'Ticket Log';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['ticket'] = $this->Ticket_Model->TicketLog();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticketLog/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    //Detail Ticket Login
+    public function detailLog($id)
+    {
+        $data['title'] = 'Detail Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['ticket'] = $this->Ticket_Model->detailsLog($id);
+
+        // var_dump($data['ticket']);die();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticketLog/detail_ticketlog', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    // send email to Technician
     private function _sendEmail()
     {
         if ($this->input->post('technician') != null) {
             $email = $this->Ticket_Model->EmailTechnician($this->input->post('technician'));
         }
-        // var_dump($token);die();
+
         $config  = [
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -161,6 +219,5 @@ class Ticket extends CI_Controller
             echo $this->email->print_debugger();
             die;
         }
-        
     }
 }

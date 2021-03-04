@@ -18,11 +18,19 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function search($keyword)
+    public function get_keyword($keyword)
     {
-        if ($keyword) {
-            $this->db->like('USER_COMPLAIN', $keyword);
-        }
+
+        $this->db->select('*');
+        $this->db->from('TICKET');
+        $this->db->like('ID_TICKET', $keyword);
+        $this->db->or_like('USER_COMPLAIN', $keyword);
+        $this->db->or_like('ID_CATEGORY', $keyword);
+        $this->db->or_like('DETAIL', $keyword);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
+        return $this->db->get()->result_array();
     }
 
     public function details($id)
@@ -120,4 +128,38 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->row_array();
     }
 
+    // ------------------------------ Ticket Log ------------------------
+
+    //get all data ticket
+    public function TicketLog()
+    {
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,
+        to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
+                        FROM TICKET_LOG  T
+                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    ORDER BY T.ID_TICKET_LOG ASC";
+        return $this->db->query($query)->result_array();
+    }
+
+    //detail ticket Log
+    public function detailsLog($id)
+    {
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS
+                        FROM TICKET_LOG  T
+                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
+        // $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+        //                 FROM TICKET_LOG  T
+        //             JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+        //             JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+        //             JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+        //             JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
+        //             WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
+        return $this->db->query($query)->row_array();
+    }
+   
 }
