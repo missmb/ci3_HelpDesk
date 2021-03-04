@@ -48,10 +48,10 @@ class Ticket extends CI_Controller
             //Insert Data Ticket
             $this->Ticket_Model->Add();
 
-            // if ($this->input->post('technician') != null){
+            if ($this->input->post('technician') != null) {
                 //Send Email to Technician
                 $this->_sendEmail();
-            // }
+            }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Ticket added!</div>');
             redirect('ticket');
@@ -60,12 +60,11 @@ class Ticket extends CI_Controller
 
     public function edit($id)
     {
-        
     }
 
     public function detail($id)
     {
-
+        var_dump($this->Ticket_Model->details($id));
     }
 
     public function delete($id)
@@ -78,7 +77,7 @@ class Ticket extends CI_Controller
     
     private function _sendEmail()
     {
-        if ($this->input->post('technician') != null){
+        if ($this->input->post('technician') != null) {
             $email = $this->Ticket_Model->EmailTechnician($this->input->post('technician'));
         }
         // var_dump($token);die();
@@ -90,7 +89,7 @@ class Ticket extends CI_Controller
             'smtp_port' => 465,
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
-            'newline'   => "\r\n"
+            'newline'   => "\r\n",
         ];
 
         $this->email->initialize($config);
@@ -98,9 +97,9 @@ class Ticket extends CI_Controller
         $this->email->from('maratulbariroh3630@gmail.com', 'missMb');
         $this->email->to($email['EMAIL']);
 
-       //Data Email
-            $this->email->subject('Problem');
-            $this->email->message('We get Problem here, can you fix this ? <br> The Problem is :' . $this->input->post('detail') . 'if any question you have, please contact reply here <br> or you can contact customer' . $this->input->post('contact'));
+        //Data Email
+        $this->email->subject('Problem');
+        $this->email->message('We get Problem here, can you fix this ? <br> The Problem is :' . $this->input->post('detail') . 'if any question you have, please contact reply here <br> or you can contact customer' . $this->input->post('contact'));
 
         if ($this->email->send()) {
             return true;
@@ -108,5 +107,6 @@ class Ticket extends CI_Controller
             echo $this->email->print_debugger();
             die;
         }
+        
     }
 }

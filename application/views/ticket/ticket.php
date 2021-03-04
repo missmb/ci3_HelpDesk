@@ -20,6 +20,7 @@
                             <th>Category</th>
                             <th>Detail</th>
                             <th>Status</th>
+                            <th>Date Solve</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -35,6 +36,7 @@
                             <th>Category</th>
                             <th>Detail</th>
                             <th>Status</th>
+                            <th>Date Solve</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -52,11 +54,12 @@
                                 <td><?= $v['CATEGORY'] ?></td>
                                 <td><?= $v['DETAIL'] ?></td>
                                 <td><?= $v['STATUS'] ?>
+                                <td><?= $v['DATE_SOLVE'] ?>
                                 </td>
                                 <td>
-                                <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>
-                                <a href="<?= base_url('ticket/edit/' . $v['ID_TICKET']); ?>"><i class="fas fa-edit text-primary"></i></a>
-                                <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
+                                    <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>
+                                    <a href="<?= base_url('ticket/edit/' . $v['ID_TICKET']); ?>"><i class="fas fa-edit text-primary"></i></a>
+                                    <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
                                 </td>
                             </tr>
                             <?php $i++ ?>
