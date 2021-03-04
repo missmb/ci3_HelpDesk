@@ -77,6 +77,36 @@ class Ticket_Model extends CI_Model
         ]);
     }
 
+         public function updatetiket($id)
+    {
+       //generate custom id
+       $cc = $this->db->count_all('TICKET') + 1;
+       $coun = str_pad($cc, 4, STR_PAD_LEFT);
+       $coo = strrev($coun);
+       $d = date('y');
+       $mnth = date("m") . "-";
+       $ticket_id = $d . $mnth . $coo;
+       //insert date with time hours, minutes, and seconds
+       //sysdate is method from oracle databases
+       $this->db->where('ID_TICKET', $id);
+       $this->db->set('UPDATE_TIME', 'sysdate', false);
+       $this->db->update('TICKET', [
+        //    'ID_TICKET' => $ticket_id,
+           //get data from user input
+           'USER_COMPLAIN' => $this->input->post('user_complain'),
+           'CONTACT' => $this->input->post('contact'),
+           'ID_DIVISI' => $this->input->post('divisi'),
+           'PLACE' => $this->input->post('place'),
+           //get data user login
+           'ADMIN' => $this->session->userdata('email'),
+           'ID_TECHNICIAN' => $this->input->post('technician'),
+           'ID_CATEGORY' => $this->input->post('category'),
+           'DETAIL' => $this->input->post('detail'),
+           // status default sedang dikerjakan
+           'ID_STATUS' =>$this->input-post('status'),
+       ]);
+    }
+
     //Delete Ticket
     public function Delete($id)
     {
@@ -85,7 +115,7 @@ class Ticket_Model extends CI_Model
 
     //Search Email Technician
     public function EmailTechnician($id)
-    {
+    
         $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id;
         return $this->db->query($query)->row_array();
     }

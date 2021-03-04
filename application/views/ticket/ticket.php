@@ -4,8 +4,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary"><?= $title ?></h6>
         </div>
-
-        <div class="rom">
+       <div class="rom">
             <div class="col-md-5 ml-auto">
                 <form action="<?= base_url('ticket/detail_ticket'); ?>" method="post">
                     <div class="input-group mb-3">
