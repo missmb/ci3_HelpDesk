@@ -17,11 +17,19 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function search($keyword)
+    public function get_keyword($keyword)
     {
-        if ($keyword) {
-            $this->db->like('USER_COMPLAIN', $keyword);
-        }
+
+        $this->db->select('*');
+        $this->db->from('TICKET');
+        $this->db->like('ID_TICKET', $keyword);
+        $this->db->or_like('USER_COMPLAIN', $keyword);
+        $this->db->or_like('ID_CATEGORY', $keyword);
+        $this->db->or_like('DETAIL', $keyword);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
+        return $this->db->get()->result_array();
     }
 
     public function details($id)
@@ -48,12 +56,12 @@ class Ticket_Model extends CI_Model
         $ticket_id = $d . $mnth . $coo;
 
         //checkbox solve
-        if ($this->input->post('solve') == NULL ){
+        if ($this->input->post('solve') == NULL) {
             $solve = '1';
-        } else{
+        } else {
             $solve = $this->input->post('solve');
         }
-        
+
         //data form insert
         $this->db->insert('TICKET', [
             'ID_TICKET' => $ticket_id,
@@ -82,8 +90,9 @@ class Ticket_Model extends CI_Model
     }
 
     //Search Email Technician
-    public function EmailTechnician($id){
-        $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id ;
+    public function EmailTechnician($id)
+    {
+        $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id;
         return $this->db->query($query)->row_array();
     }
 }

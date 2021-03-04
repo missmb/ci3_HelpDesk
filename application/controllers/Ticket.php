@@ -21,10 +21,21 @@ class Ticket extends CI_Controller
 
     public function search()
     {
+        $data['title'] = 'Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
         //ambil data keyword
-        if ($this->input->post('submit')) {
-            $data['keyword'] = $this->input->post('keyword');
-        }
+        //if ($this->input->post('submit')) {
+        //    $data['keyword'] = $this->input->post('keyword');
+        $keyword = $this->input->post('keyword');
+        $data['ticket'] = $this->Ticket_Model->get_keyword($keyword);
+        // var_dump($data['ticket']);
+        // die();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticket/ticket', $data);
+        $this->load->view('template/footer', $data);
     }
 
     public function add()
@@ -57,8 +68,8 @@ class Ticket extends CI_Controller
             $this->Ticket_Model->Add();
 
             // if ($this->input->post('technician') != null){
-                //Send Email to Technician
-                $this->_sendEmail();
+            //Send Email to Technician
+            $this->_sendEmail();
             // }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Ticket added!</div>');
@@ -95,10 +106,10 @@ class Ticket extends CI_Controller
         redirect('ticket');
     }
 
-    
+
     private function _sendEmail()
     {
-        if ($this->input->post('technician') != null){
+        if ($this->input->post('technician') != null) {
             $email = $this->Ticket_Model->EmailTechnician($this->input->post('technician'));
         }
         // var_dump($token);die();
@@ -118,9 +129,9 @@ class Ticket extends CI_Controller
         $this->email->from('maratulbariroh3630@gmail.com', 'missMb');
         $this->email->to($email['EMAIL']);
 
-       //Data Email
-            $this->email->subject('Problem');
-            $this->email->message('We get Problem here, can you fix this ? <br> The Problem is :' . $this->input->post('detail') . 'if any question you have, please contact reply here <br> or you can contact customer' . $this->input->post('contact'));
+        //Data Email
+        $this->email->subject('Problem');
+        $this->email->message('We get Problem here, can you fix this ? <br> The Problem is :' . $this->input->post('detail') . 'if any question you have, please contact reply here <br> or you can contact customer' . $this->input->post('contact'));
 
         if ($this->email->send()) {
             return true;
