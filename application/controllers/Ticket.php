@@ -55,6 +55,8 @@ class Ticket extends CI_Controller
         } else {
             //Insert Data Ticket
             $this->Ticket_Model->Add();
+            //Insert Data TicketLog
+            $this->Ticket_Model->AddLog();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
@@ -105,6 +107,39 @@ class Ticket extends CI_Controller
         $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
 
         $this->load->view('ticket/print_ticket', $data);
+    }
+
+
+    // ------------------------------ Ticket Log --------------------------------
+
+    //list of tickets log
+    public function ticketlog(){
+        $data['title'] = 'Ticket Log';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['ticket'] = $this->Ticket_Model->TicketLog();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticketLog/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    //Detail Ticket Login
+    public function detailLog($id)
+    {
+        $data['title'] = 'Detail Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['ticket'] = $this->Ticket_Model->detailsLog($id);
+
+        // var_dump($data['ticket']);die();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticketLog/detail_ticketlog', $data);
+        $this->load->view('template/footer', $data);
     }
 
     // send email to Technician
