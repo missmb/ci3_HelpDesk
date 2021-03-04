@@ -3,10 +3,11 @@
 
       <!-- Page Heading -->
       <div class="card shadow mb-4">
-          <div class="card-header py-3">
-              <h1 class="m-0 font-weight-bold text-primary">Detail Ticket</h1>
+          <div class="card-header py-3 justify-content-between row">
+              <h3 class="m-0 font-weight-bold text-primary">Detail Ticket</h3>
+              <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
           </div>
-          <div class="row">
+          <div class="row mt-3">
               <div class="col-lg-10">
                   <form action="<?= base_url('ticket/detail_ticket'); ?>">
                       <div class="form-group row">

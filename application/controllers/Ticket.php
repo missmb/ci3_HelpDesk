@@ -67,10 +67,10 @@ class Ticket extends CI_Controller
             //Insert Data Ticket
             $this->Ticket_Model->Add();
 
-            // if ($this->input->post('technician') != null){
-            //Send Email to Technician
-            $this->_sendEmail();
-            // }
+            if ($this->input->post('technician') != null) {
+                //Send Email to Technician
+                $this->_sendEmail();
+            }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Ticket added!</div>');
             redirect('ticket');
@@ -106,13 +106,25 @@ class Ticket extends CI_Controller
         redirect('ticket');
     }
 
+    // print detail ticket
+    public function print_ticket($id)
+    {
+        $data['title'] = 'Detail Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['ticket'] = $this->Ticket_Model->details($id);
+        $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
 
+        $this->load->view('ticket/print_ticket', $data);
+    }
+
+    // send email to Technician
     private function _sendEmail()
     {
         if ($this->input->post('technician') != null) {
             $email = $this->Ticket_Model->EmailTechnician($this->input->post('technician'));
         }
-        // var_dump($token);die();
+
         $config  = [
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -121,7 +133,7 @@ class Ticket extends CI_Controller
             'smtp_port' => 465,
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
-            'newline'   => "\r\n"
+            'newline'   => "\r\n",
         ];
 
         $this->email->initialize($config);

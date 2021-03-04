@@ -33,6 +33,7 @@
                             <th>Category</th>
                             <th>Detail</th>
                             <th>Status</th>
+                            <th>Date Solve</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                             <th>Category</th>
                             <th>Detail</th>
                             <th>Status</th>
+                            <th>Date Solve</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -65,6 +67,7 @@
                                 <td><?= $v['CATEGORY'] ?></td>
                                 <td><?= $v['DETAIL'] ?></td>
                                 <td><?= $v['STATUS'] ?>
+                                <td><?= $v['DATE_SOLVE'] ?>
                                 </td>
                                 <td>
                                     <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>

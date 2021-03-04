@@ -102,9 +102,9 @@
                 // checkbox on problem solve alone
                 $('.form-check-solve').on('click', function() {
                     if (this.checked == true) {
-                        alert('change to check');
+                        // alert('change to check');
                     } else if (this.checked == false) {
-                        alert('change to not');
+                        // alert('change to not');
                         // let fileName = $(this).val().split('\\').pop();
                         // $(this).next('.custom-file-label').addClass("selected").html(fileName);
                         $('#techniciannn').attr("disabled");

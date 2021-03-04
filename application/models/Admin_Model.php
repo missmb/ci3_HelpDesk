@@ -40,14 +40,9 @@ class Admin_Model extends CI_Model
     public function Sidebar()
     {
         return $this->db->get('USER_MENU')->result_array();
-        // $role_id = $this->session->userdata('role_id');
-
-        // $query = " SELECT USER_MENU.MENU_ID, USER_MENU.MENU
-        //                FROM USER_MENU JOIN USER_ACCESS_MENU
-        //                    ON USER_MENU.MENU_ID = USER_ACCESS_MENU.MENU_ID
-        //                 WHERE USER_ACCESS_MENU.ROLE_ID =$role_id 
-        //              ORDER BY USER_ACCESS_MENU.MENU_ID ASC";
-        // return $this->db->query($query)->result_array();
     }
     
+    public function getAllUsers(){
+        return $this->db->get('USER_SYS')->result_array();
+    }
 }
