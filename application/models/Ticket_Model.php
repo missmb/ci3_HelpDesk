@@ -123,7 +123,7 @@ class Ticket_Model extends CI_Model
 
     //Search Email Technician
     public function EmailTechnician($id)
-    
+    {
         $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id;
         return $this->db->query($query)->row_array();
     }
@@ -141,6 +141,47 @@ class Ticket_Model extends CI_Model
                     JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
                     ORDER BY T.ID_TICKET_LOG ASC";
         return $this->db->query($query)->result_array();
+    }
+
+    //insert data ticket to table ticket and status
+    public function AddLog()
+    {
+        //generate custom id
+        $cc = $this->db->count_all('TICKET_LOG') + 1;
+        $coun = str_pad($cc, 4, STR_PAD_LEFT);
+        $coo = strrev($coun);
+        $d = date('y');
+        $mnth = date("m") . "-";
+        $ticket_id = $d . $mnth . $coo;
+
+        //checkbox solve
+        if ($this->input->post('solve') == NULL) {
+            $solve = '1';
+        } else {
+            $solve = $this->input->post('solve');
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->set('DATE_INSERT', 'sysdate', false);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+
+        $this->db->insert('TICKET_LOG', [
+            'ID_TICKET_LOG' => $ticket_id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            'ID_STATUS' => $solve,
+        ]);
     }
 
     //detail ticket Log
