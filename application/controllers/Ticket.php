@@ -24,9 +24,6 @@ class Ticket extends CI_Controller
         $data['title'] = 'Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-        //ambil data keyword
-        //if ($this->input->post('submit')) {
-        //    $data['keyword'] = $this->input->post('keyword');
         $keyword = $this->input->post('keyword');
         $data['ticket'] = $this->Ticket_Model->get_keyword($keyword);
         // var_dump($data['ticket']);
@@ -124,11 +121,13 @@ class Ticket extends CI_Controller
     // ------------------------------ Ticket Log --------------------------------
 
     //list of tickets log
-    public function ticketlog(){
+    public function ticketlog()
+    {
         $data['title'] = 'Ticket Log';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-        $data['ticket'] = $this->Ticket_Model->TicketLog();
+        $keywordlog = $this->input->post('keywordlog');
+        $data['ticket'] = $this->Ticket_Model->ticketLog($keywordlog);
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);

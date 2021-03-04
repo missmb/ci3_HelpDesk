@@ -101,8 +101,19 @@ class Ticket_Model extends CI_Model
     // ------------------------------ Ticket Log ------------------------
 
     //get all data ticket
-    public function TicketLog()
+    public function ticketLog($keywordlog)
     {
+        $this->db->select('*');
+        $this->db->from('TICKET_LOG');
+        $this->db->like('ID_TICKET_LOG', $keywordlog);
+        $this->db->or_like('USER_COMPLAIN', $keywordlog);
+        $this->db->or_like('ID_CATEGORY', $keywordlog);
+        $this->db->or_like('DETAIL', $keywordlog);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
+        return $this->db->get()->result_array();
+
         $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,
         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TICKET_LOG  T
@@ -131,5 +142,4 @@ class Ticket_Model extends CI_Model
         //             WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
         return $this->db->query($query)->row_array();
     }
-   
 }
