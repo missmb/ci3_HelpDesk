@@ -5,13 +5,14 @@
             <h6 class="m-0 font-weight-bold text-primary"><?= $title ?></h6>
         </div>
 
-        <div class="rom">
+        <div class="navdar-form navdar-right">
             <div class="col-md-5 ml-auto">
-                <form action="<?= base_url('ticket/detail_ticket'); ?>" method="post">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search Keyword" name="keyword" autofocus>
-                        <button class="btn btn-primary" type="submit" nama="submit">Search</button>
-                    </div>
+                <?php echo form_open('ticket/search') ?>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search Keyword" name="keyword" autofocus>
+                    <button class="btn btn-primary" type="submit" name="submit">Search</button>
+                    <?php echo form_close() ?>
+                </div>
                 </form>
             </div>
         </div>
