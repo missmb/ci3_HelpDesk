@@ -71,7 +71,7 @@ class Ticket extends CI_Controller
             //Insert Data Ticket
             $this->Ticket_Model->Add();
             //Insert Data TicketLog
-            $this->Ticket_Model->AddLog();
+           // $this->Ticket_Model->AddLog();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
@@ -94,6 +94,8 @@ class Ticket extends CI_Controller
         $data['category'] = $this->db->get('CATEGORY')->result_array();
         //get all data from table technician
         $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
+        //get all data form table status_problem
+        $data['status']=$this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
 
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
