@@ -51,13 +51,13 @@
                     <label for="detail" class="col-sm-3 control-label">Detail</label>
                     <textarea class="form-control col-sm-9" id="detail" name="detail" style="height: 100px" ><?php echo $ticket['DETAIL'] ?></textarea>
                 </div>
-                <div class="form-check row">
+              <!--  <div class="form-check row">
                 <label for="solve" class="col-sm-3 control-label">Solve</label>
                     <input class="form-check-solve" type="checkbox" value="3" id="solve" name="solve">
                     <label class="form-check-label" for="solve">
                         Can Solve Alone ?
                     </label>
-                </div>
+                </div>-->
                 <div class="form-group row">
                     <label for="technician" class="col-sm-3 control-label">Technician</label>
                     <select name="technician" id="technician" class="form-control col-sm-9">
@@ -66,7 +66,7 @@
                             <option value="<?= $v['ID_TECHNICIAN']; ?>"><?= $v['TECHNICIAN_NAME']; ?> - <?= $v['DIVISI']; ?></option>
                         <?php endforeach; ?>
                     </select>
-                </div>
+                </div> 
                 <div class="form-group row">
                     <label for="status_problem" class="col-sm-3 control-label">Status</label>
                     <select name="status_problem" id="status_problem" class="form-control col-sm-9">
@@ -75,6 +75,15 @@
                             <option value="<?= $v['ID_STATUS']; ?>"><?= $v['STATUS']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="form-group row">
+                    <label for="how_to_solve" class="col-sm-3 control-label">How To Solve</label>
+                    <input type="text" class="form-control col-sm-9" id="how_to_solve" name="how_to_solve" ?>
+                    <?= form_error('how_to_solve', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+                <div class="form-floating row mb-3">
+                    <label for="note" class="col-sm-3 control-label">Note</label>
+                    <textarea class="form-control col-sm-9" id="note" name="note" style="height: 100px" ></textarea>
                 </div>
                 <div class="form-gropup">
                     <button type="submit" class="btn btn-primary">Edit Data</button>

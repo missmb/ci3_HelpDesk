@@ -105,13 +105,15 @@ class Ticket_Model extends CI_Model
            'CONTACT' => $this->input->post('contact'),
            'ID_DIVISI' => $this->input->post('divisi'),
            'PLACE' => $this->input->post('place'),
+           'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+           'NOTE' => $this->input->post('note'),
            //get data user login
            'ADMIN' => $this->session->userdata('email'),
            'ID_TECHNICIAN' => $this->input->post('technician'),
            'ID_CATEGORY' => $this->input->post('category'),
            'DETAIL' => $this->input->post('detail'),
            // status default sedang dikerjakan
-           'ID_STATUS' =>$this->input-post('status'),
+           'ID_STATUS' => $this->input->post('status'),
        ]);
     }
 
@@ -123,7 +125,7 @@ class Ticket_Model extends CI_Model
 
     //Search Email Technician
     public function EmailTechnician($id)
-    
+    {
         $query = "SELECT EMAIL FROM TECHNICIAN WHERE ID_TECHNICIAN = " .  $id;
         return $this->db->query($query)->row_array();
     }
