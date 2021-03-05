@@ -7,6 +7,7 @@ class Ticket extends CI_Controller
     //ticket list table
     public function index()
     {
+        // var_dump($this->db->select('ID_TICKET')->from('TICKET')->order_by('ID_TICKET',"desc")->limit(1));die();
         $data['title'] = 'Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
@@ -55,10 +56,10 @@ class Ticket extends CI_Controller
         $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
 
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
-        // $this->form_validation->set_rules('contact', 'Contact', 'required');
-        // $this->form_validation->set_rules('divisi', 'Divisi', 'required');
-        // $this->form_validation->set_rules('place', 'Place', 'required');
-        // $this->form_validation->set_rules('category', 'Category', 'required');
+        $this->form_validation->set_rules('contact', 'Contact', 'required');
+        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
+        $this->form_validation->set_rules('place', 'Place', 'required');
+        $this->form_validation->set_rules('category', 'Category', 'required');
 
         if ($this->form_validation->run() == false) {
             // run while nothing validation
@@ -71,11 +72,11 @@ class Ticket extends CI_Controller
             //Insert Data Ticket
             $this->Ticket_Model->Add();
             //Insert Data TicketLog
-           // $this->Ticket_Model->AddLog();
+           $this->Ticket_Model->AddLog();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
-                $this->_sendEmail();
+                // $this->_sendEmail();
             }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Ticket added!</div>');
@@ -97,7 +98,7 @@ class Ticket extends CI_Controller
         //get all data form table status_problem
         $data['status']=$this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
-
+// var_dump($data['ticket']);die();
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
         $this->form_validation->set_rules('contact', 'Contact', 'required');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');

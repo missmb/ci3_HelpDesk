@@ -70,20 +70,20 @@
                 <div class="form-group row">
                     <label for="status_problem" class="col-sm-3 control-label">Status</label>
                     <select name="status_problem" id="status_problem" class="form-control col-sm-9">
-                        <option value="">Select Status</option>
+                        <option value="<?= $ticket['ID_STATUS']; ?>"><?= $ticket['STATUS']; ?></option>
                         <?php foreach ($status as $v) : ?>
                             <option value="<?= $v['ID_STATUS']; ?>"><?= $v['STATUS']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label for="how_to_solve" class="col-sm-3 control-label">How To Solve</label>
-                    <input type="text" class="form-control col-sm-9" id="how_to_solve" name="how_to_solve" ?>
+                    <label for="how_to_solve" class="col-sm-3 control-label">How To Solve<?= $ticket['HOW_TO_SOLVE']; ?></label>
+                    <input type="text" class="form-control col-sm-9" id="how_to_solve" name="how_to_solve" value="<?= $ticket['HOW_TO_SOLVE']; ?>">
                     <?= form_error('how_to_solve', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
                 <div class="form-floating row mb-3">
                     <label for="note" class="col-sm-3 control-label">Note</label>
-                    <textarea class="form-control col-sm-9" id="note" name="note" style="height: 100px" ></textarea>
+                    <textarea class="form-control col-sm-9" id="note" name="note" style="height: 100px" value="<?= $ticket['NOTE']; ?>"><?= $ticket['NOTE']; ?></textarea>
                 </div>
                 <div class="form-gropup">
                     <button type="submit" class="btn btn-primary">Edit Data</button>

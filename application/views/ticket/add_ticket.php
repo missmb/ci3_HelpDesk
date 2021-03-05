@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="technician" class="col-sm-3 control-label">technician</label>
-                    <select name="technician" id="technician" class="form-control col-sm-9">
+                    <select name="technician" id="tech" class="form-control col-sm-9">
                         <option value="">Select Technician</option>
                         <?php foreach ($technician as $v) : ?>
                             <option value="<?= $v['ID_TECHNICIAN']; ?>"><?= $v['TECHNICIAN_NAME']; ?> - <?= $v['DIVISI']; ?></option>

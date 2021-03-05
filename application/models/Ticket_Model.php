@@ -8,12 +8,13 @@ class Ticket_Model extends CI_Model
     //get all data ticket
     public function Ticket()
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TICKET  T
-                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
                     ORDER BY T.ID_TICKET ASC";
         return $this->db->query($query)->result_array();
     }
@@ -74,8 +75,8 @@ class Ticket_Model extends CI_Model
         $this->db->set('DATE_INSERT', 'sysdate', false);
 
         $this->db->insert('TICKET', [
-            // 'ID_TICKET' => $ticket_id,
-            'ID_TICKET' => $this->_AddEntry(),
+            'ID_TICKET' => $ticket_id,
+            // 'ID_TICKET' => $this->_AddEntry(),
             //get data from user input
             'USER_COMPLAIN' => $this->input->post('user_complain'),
             'CONTACT' => $this->input->post('contact'),
@@ -115,6 +116,18 @@ class Ticket_Model extends CI_Model
     //edit Ticket
     public function updatetiket($id)
     {
+        $this->db->where('ID_TICKET', $id);
+        if ($this->input->post('status_problem') == NULL) {
+            // $solve = '1';
+        } else if ($this->input->post('status_problem') == 1) {
+            $solve = 1;
+        } else if ($this->input->post('status_problem') == 2) {
+            $solve = 2;
+        } else if ($this->input->post('status_problem') == 3) {
+            $solve = 3;
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+
        //insert date with time hours, minutes, and seconds
        //sysdate is method from oracle databases
        $this->db->where('ID_TICKET', $id);
@@ -134,11 +147,7 @@ class Ticket_Model extends CI_Model
            'ID_CATEGORY' => $this->input->post('category'),
            'DETAIL' => $this->input->post('detail'),
            // status default sedang dikerjakan
-<<<<<<< HEAD
-           'ID_STATUS' => $this->input->post('status'),
-=======
-           'ID_STATUS' =>$this->input->post('status'),
->>>>>>> c38f6b7093bad4c0dd6b9acfe69f9062652985e8
+           'ID_STATUS' => $this->input->post('status_problem'),
        ]);
     }
 
@@ -160,12 +169,13 @@ class Ticket_Model extends CI_Model
     //get all data ticket
     public function TicketLog()
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,k.TECHNICIAN_NAME,
         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TICKET_LOG  T
-                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
                     ORDER BY T.ID_TICKET_LOG ASC";
         return $this->db->query($query)->result_array();
     }
@@ -240,9 +250,9 @@ class Ticket_Model extends CI_Model
     {
         $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS
                         FROM TICKET_LOG  T
-                    JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
                     WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
         // $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
         //                 FROM TICKET_LOG  T
