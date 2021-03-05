@@ -7,11 +7,14 @@
     <div class="row">
         <div class="col-lg-10">
             <?= $this->session->flashdata('message'); ?>
-            <form action="<?= base_url('ticket/editlog/'. $ticket["ID_TICKET_LOG"]); ?>" method="POST">
-            <div class="form-group row">
+            <form action="<?= base_url('ticket/editlog/' . $ticket["ID_TICKET_LOG"]); ?>" method="POST">
+                <div class="form-group row">
                     <label for="user_complain" class="col-sm-3 control-label">ID TICKET</label>
-                    <input type="disable" name="id_ticket_log" value="<?php echo $ticket['ID_TICKET_LOG']?>" disabled>
-                    <?= form_error('user_complain', '<small class="text-danger pl-3">', '</small>'); ?>
+                    <input type="disable" name="id_ticket_log" value="<?php echo $ticket['ID_TICKET_LOG'] ?>" disabled>
+                </div>
+                <div class="form-group row">
+                    <label for="date_insert" class="col-sm-3 control-label">Date Insert</label>
+                    <input type="disable" name="date_insert" value="<?php echo $ticket['DATE_INSERT'] ?>" disabled>
                 </div>
                 <div class="form-group row">
                     <label for="user_complain" class="col-sm-3 control-label">User Complain</label>
@@ -49,7 +52,7 @@
                 </div>
                 <div class="form-floating row mb-3">
                     <label for="detail" class="col-sm-3 control-label">Detail</label>
-                    <textarea class="form-control col-sm-9" id="detail" name="detail" style="height: 100px" ><?php echo $ticket['DETAIL'] ?></textarea>
+                    <textarea class="form-control col-sm-9" id="detail" name="detail" style="height: 100px"><?php echo $ticket['DETAIL'] ?></textarea>
                 </div>
                 <div class="form-group row">
                     <label for="technician" class="col-sm-3 control-label">Technician</label>
@@ -68,6 +71,10 @@
                             <option value="<?= $v['ID_STATUS']; ?>"><?= $v['STATUS']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="form-group row">
+                    <label for="date_solve" class="col-sm-3 control-label">Date Solve</label>
+                    <input type="disable" name="date_solve" value="<?php echo $ticket['DATE_SOLVE'] ?>" disabled>
                 </div>
                 <div class="form-floating row mb-3">
                     <label for="how_to_solve" class="col-sm-3 control-label">How To Solve</label>

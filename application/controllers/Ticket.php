@@ -128,6 +128,7 @@ class Ticket extends CI_Controller
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->db->get('USER_MENU')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
+        $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -210,6 +211,7 @@ class Ticket extends CI_Controller
         $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->detailsLog($id);
 
+        var_dump($data['ticket'] );
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
         $this->form_validation->set_rules('contact', 'Contact', 'required');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');

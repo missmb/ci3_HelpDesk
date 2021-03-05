@@ -8,7 +8,7 @@
               <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET_LOG']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
           </div>
           <div class="row mt-3">
-              <div class="col-lg-10">
+              <div class="col-lg-10 ml-5">
                   <form action="<?= base_url('ticket/detail_ticket'); ?>">
                       <div class="form-group row">
                           <label for="user_complain" class="col-sm-3 control-label">ID Ticket</label>
