@@ -1,15 +1,19 @@
-<div class="col-sm-6">
-    <form action="<?= base_url('ticket/detail_ticket'); ?>" method="post">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search Keyword" name="keyword" autofocus>
-            <button class="btn btn-primary" type="submit" nama="submit">Search</button>
-        </div>
-    </form>
+<div class="row mt-3 mb-3">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <form action="<?= base_url('ticket/searchlog'); ?>" method="post">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search Keyword" name="keywordlog" autofocus>
+                <button class="btn btn-primary" type="submit" nama="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-3"></div>
 </div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary"><?= $title ?></h6>
+        <h6 class="m-0 font-weight-bold text-primary"><?= $title ?> <small>Result : <?= $result ?></small></h6>
     </div>
     <?= $this->session->flashdata('message'); ?>
     <div class="card-body">
