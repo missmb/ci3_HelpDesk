@@ -50,6 +50,9 @@ class Ticket_Model extends CI_Model
     //insert data ticket to table ticket and status
     public function Add()
     {
+        // var_dump($this->_AddEntry());die();
+        // $lastEntryNumber = 0 ;
+        // $lastEntryMonth = 0 ;
         //generate custom id
         $cc = $this->db->count_all('TICKET') + 1;
         $coun = str_pad($cc, 4, STR_PAD_LEFT);
@@ -71,7 +74,8 @@ class Ticket_Model extends CI_Model
         $this->db->set('DATE_INSERT', 'sysdate', false);
 
         $this->db->insert('TICKET', [
-            'ID_TICKET' => $ticket_id,
+            // 'ID_TICKET' => $ticket_id,
+            'ID_TICKET' => $this->_AddEntry(),
             //get data from user input
             'USER_COMPLAIN' => $this->input->post('user_complain'),
             'CONTACT' => $this->input->post('contact'),
@@ -86,6 +90,27 @@ class Ticket_Model extends CI_Model
             'ID_STATUS' => $solve,
         ]);
     }
+
+//     // global int $lastEntryNumber;
+//     //entry
+//     private function _AddEntry(){
+//         // int $lastEntryNumber ;
+//         $lastEntryMonth = date("m") ;
+// // var_dump($this->db->query("SELECT max(ID_TICKET) FROM TICKET ORDER BY ID_TICKET DESC LIMIT 1") );die();
+//         if  (date("m") != $lastEntryMonth){
+//             $lastEntryMonth = date("m");
+//             $lastEntryNumber = 0 ;
+//         }
+
+//         $lastEntryNumber = $lastEntryNumber + 1 ;
+//         $coun = str_pad($lastEntryNumber, 4, STR_PAD_LEFT);
+//         $coo = strrev($coun);
+//         $d = date('y');
+//         $mnth = date("m") . "-";
+//         $ticket_id = $d . $mnth . $coo;
+
+//         return $ticket_id;
+//     }
 
     //edit Ticket
     public function updatetiket($id)
@@ -263,4 +288,6 @@ class Ticket_Model extends CI_Model
     {
         $this->db->delete('TICKET_LOG', array('ID_TICKET_LOG' => $id));
     }
+
+   
 }
