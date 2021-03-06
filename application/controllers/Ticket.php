@@ -13,7 +13,19 @@ class Ticket extends CI_Controller
         $data['menu'] = $this->Admin_Model->Sidebar();
         $data['ticket'] = $this->Ticket_Model->Ticket();
         //count all data from table ticket
-        $data['result'] =  $this->db->count_all('TICKET_LOG');
+        $data['result'] =  $this->db->count_all('TICKET');
+
+        //pagination
+        // $jumlah_data = $this->m_data->jumlah_data();
+        // $jumlah_data = $this->db->count_all('TICKET');
+        // $config['base_url'] = base_url() . 'index.php/welcome/index/';
+        // $config['total_rows'] = $jumlah_data;
+        // $config['per_page'] = 10;
+        // $from = $this->uri->segment(3);
+        // $this->pagination->initialize($config);
+        // $data['data'] = $this->m_data->data($config['per_page'], $from);
+        // $data['data'] = $this->Ticket_Model->data($config['per_page'], $from);
+        // $data['ticket'] = $this->Ticket_Model->Ticket($config['per_page'], $from);
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -72,7 +84,9 @@ class Ticket extends CI_Controller
             //Insert Data Ticket
             $this->Ticket_Model->Add();
             //Insert Data TicketLog
-           $this->Ticket_Model->AddLog();
+            $this->Ticket_Model->AddLog();
+            //Insert Data TicketLog
+            $this->Ticket_Model->AddTransaksi();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
@@ -96,7 +110,7 @@ class Ticket extends CI_Controller
         //get all data from table technician
         $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
         //get all data form table status_problem
-        $data['status']=$this->db->get('STATUS_PROBLEM')->result_array();
+        $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
 
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
@@ -249,13 +263,33 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
-    
+
     public function deleteLog($id)
     {
         $this->Ticket_Model->DeleteLog($id);
         $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
         redirect('ticket');
     }
+
+
+    // ------------------------------ Transaksi --------------------------------
+    //List of Transaksi 
+    public function transaksi()
+    {
+        $data['title'] = 'Transaksi';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['transaksi'] = $this->Ticket_Model->Transaksi();
+        $data['result'] =  $this->db->count_all('TRANSAKSI');
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('transaksi/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+
     // send email to Technician
     private function _sendEmail()
     {

@@ -19,6 +19,11 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    // function data($number, $offset)
+    // {
+    //     return $query = $this->db->get('TICKET', $number, $offset)->result();
+    // }
+
     //Fitur Search Ticket
     public function get_keyword($keyword)
     {
@@ -92,26 +97,26 @@ class Ticket_Model extends CI_Model
         ]);
     }
 
-//     // global int $lastEntryNumber;
-//     //entry
-//     private function _AddEntry(){
-//         // int $lastEntryNumber ;
-//         $lastEntryMonth = date("m") ;
-// // var_dump($this->db->query("SELECT max(ID_TICKET) FROM TICKET ORDER BY ID_TICKET DESC LIMIT 1") );die();
-//         if  (date("m") != $lastEntryMonth){
-//             $lastEntryMonth = date("m");
-//             $lastEntryNumber = 0 ;
-//         }
+    //     // global int $lastEntryNumber;
+    //     //entry
+    //     private function _AddEntry(){
+    //         // int $lastEntryNumber ;
+    //         $lastEntryMonth = date("m") ;
+    // // var_dump($this->db->query("SELECT max(ID_TICKET) FROM TICKET ORDER BY ID_TICKET DESC LIMIT 1") );die();
+    //         if  (date("m") != $lastEntryMonth){
+    //             $lastEntryMonth = date("m");
+    //             $lastEntryNumber = 0 ;
+    //         }
 
-//         $lastEntryNumber = $lastEntryNumber + 1 ;
-//         $coun = str_pad($lastEntryNumber, 4, STR_PAD_LEFT);
-//         $coo = strrev($coun);
-//         $d = date('y');
-//         $mnth = date("m") . "-";
-//         $ticket_id = $d . $mnth . $coo;
+    //         $lastEntryNumber = $lastEntryNumber + 1 ;
+    //         $coun = str_pad($lastEntryNumber, 4, STR_PAD_LEFT);
+    //         $coo = strrev($coun);
+    //         $d = date('y');
+    //         $mnth = date("m") . "-";
+    //         $ticket_id = $d . $mnth . $coo;
 
-//         return $ticket_id;
-//     }
+    //         return $ticket_id;
+    //     }
 
     //edit Ticket
     public function updatetiket($id)
@@ -128,27 +133,27 @@ class Ticket_Model extends CI_Model
             $this->db->set('DATE_SOLVE', 'sysdate', false);
         }
 
-       //insert date with time hours, minutes, and seconds
-       //sysdate is method from oracle databases
-       $this->db->where('ID_TICKET', $id);
-       $this->db->set('UPDATE_TIME', 'sysdate', false);
-       $this->db->update('TICKET', [
-        //    'ID_TICKET' => $ticket_id,
-           //get data from user input
-           'USER_COMPLAIN' => $this->input->post('user_complain'),
-           'CONTACT' => $this->input->post('contact'),
-           'ID_DIVISI' => $this->input->post('divisi'),
-           'PLACE' => $this->input->post('place'),
-           'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
-           'NOTE' => $this->input->post('note'),
-           //get data user login
-           'ADMIN' => $this->session->userdata('email'),
-           'ID_TECHNICIAN' => $this->input->post('technician'),
-           'ID_CATEGORY' => $this->input->post('category'),
-           'DETAIL' => $this->input->post('detail'),
-           // status default sedang dikerjakan
-           'ID_STATUS' => $this->input->post('status_problem'),
-       ]);
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->where('ID_TICKET', $id);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+        $this->db->update('TICKET', [
+            //    'ID_TICKET' => $ticket_id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+            'NOTE' => $this->input->post('note'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            'ID_STATUS' => $this->input->post('status_problem'),
+        ]);
     }
 
     //Delete Ticket
@@ -258,9 +263,9 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->row_array();
     }
 
-     //edit Ticket
-     public function updateTiketLOG($id)
-     {
+    //edit Ticket
+    public function updateTiketLOG($id)
+    {
         //insert date with time hours, minutes, and seconds
         //sysdate is method from oracle databases
         $this->db->where('ID_TICKET_LOG', $id);
@@ -291,13 +296,137 @@ class Ticket_Model extends CI_Model
             'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
             'NOTE' => $this->input->post('note'),
         ]);
-     }
+    }
 
-     //Delete Ticket
+    //Delete Ticket
     public function DeleteLog($id)
     {
         $this->db->delete('TICKET_LOG', array('ID_TICKET_LOG' => $id));
     }
 
-   
+
+    // ------------------------------ Transaksi ------------------------
+
+    public function Transaksi()
+    {
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
+        to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
+                        FROM TRANSAKSI  T
+                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
+                    ORDER BY T.ID_TRANSAKSI DESC";
+        return $this->db->query($query)->result_array();
+    }
+
+    //get search data ticket
+    public function searchTransaksi($keywordlog)
+    {
+        $this->db->select('*');
+        $this->db->from('TRANSAKSI');
+        $this->db->like('ID_TRANSAKSI', $keywordlog);
+        $this->db->or_like('USER_COMPLAIN', $keywordlog);
+        $this->db->or_like('ID_CATEGORY', $keywordlog);
+        $this->db->or_like('DETAIL', $keywordlog);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
+        return $this->db->get()->result_array();
+    }
+
+    //insert data transaksi to table transaksi and status
+    public function AddTransaksi()
+    {
+        //generate custom id
+        $cc = $this->db->count_all('TRANSAKSI') + 1;
+        $coun = str_pad($cc, 4, STR_PAD_LEFT);
+        $coo = strrev($coun);
+        $d = date('y');
+        $mnth = date("m") . "-";
+        $transaksi_id = $d . $mnth . $coo;
+
+        //checkbox solve
+        if ($this->input->post('solve') == NULL) {
+            $solve = '1';
+        } else {
+            $solve = $this->input->post('solve');
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->set('DATE_INSERT', 'sysdate', false);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+
+        $this->db->insert('TRANSAKSI', [
+            'ID_TRANSAKSI' => $transaksi_id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            'ID_STATUS' => $solve,
+        ]);
+    }
+
+    //detail ticket Log
+    public function detailsTransaksi($id)
+    {
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+                        FROM TRANSAKSI  T
+                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
+                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
+                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
+                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
+                    WHERE T.ID_TRANSAKSI = " . "'" . $id . "'";
+        return $this->db->query($query)->row_array();
+    }
+
+    //edit Transaksi
+    public function updateTransaksi($id)
+    {
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->where('ID_TRANSAKSI', $id);
+        if ($this->input->post('status_problem') == NULL) {
+            // $solve = '1';
+        } else if ($this->input->post('status_problem') == 1) {
+            $solve = 1;
+        } else if ($this->input->post('status_problem') == 2) {
+            $solve = 2;
+        } else if ($this->input->post('status_problem') == 3) {
+            $solve = 3;
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+        $this->db->update('TRANSAKSI', [
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            //get data user login
+            // 'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            // 'ID_STATUS' => $solve,
+            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+            'NOTE' => $this->input->post('note'),
+        ]);
+    }
+
+    //Delete Ticket
+    public function DeleteTransaksi($id)
+    {
+        $this->db->delete('TRANSAKSI', array('ID_TRANSSAKSI' => $id));
+    }
 }
