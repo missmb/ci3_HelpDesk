@@ -98,7 +98,7 @@ class Ticket extends CI_Controller
         //get all data form table status_problem
         $data['status']=$this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
-// var_dump($data['ticket']);die();
+
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
         $this->form_validation->set_rules('contact', 'Contact', 'required');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');
@@ -211,7 +211,6 @@ class Ticket extends CI_Controller
         $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
         $data['ticket'] = $this->Ticket_Model->detailsLog($id);
 
-        var_dump($data['ticket'] );
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
         $this->form_validation->set_rules('contact', 'Contact', 'required');
         $this->form_validation->set_rules('divisi', 'Divisi', 'required');

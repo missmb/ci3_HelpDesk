@@ -15,7 +15,7 @@ class Ticket_Model extends CI_Model
                     LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
                     LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
                     LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-                    ORDER BY T.ID_TICKET ASC";
+                    ORDER BY T.ID_TICKET DESC";
         return $this->db->query($query)->result_array();
     }
 
@@ -176,7 +176,7 @@ class Ticket_Model extends CI_Model
                     LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
                     LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
                     LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-                    ORDER BY T.ID_TICKET_LOG ASC";
+                    ORDER BY T.ID_TICKET_LOG DESC";
         return $this->db->query($query)->result_array();
     }
 
@@ -255,13 +255,6 @@ class Ticket_Model extends CI_Model
                     LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
                     LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
                     WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
-        // $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
-        //                 FROM TICKET_LOG  T
-        //             JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-        //             JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-        //             JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
-        //             JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-        //             WHERE T.ID_TICKET_LOG = " . "'" . $id . "'";
         return $this->db->query($query)->row_array();
     }
 

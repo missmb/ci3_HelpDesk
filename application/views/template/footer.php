@@ -113,20 +113,45 @@
             
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
             <script type="text/javascript">
-                new Chart(document.getElementById("doughnut-chart"), {
+            //chart status ticket dashboard
+                new Chart(document.getElementById("status-ticket"), {
                     type: 'doughnut',
                     data: {
-                        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                        labels: ["Process", "Pending", "Solve"],
                         datasets: [{
-                            label: "Population (millions)",
-                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                            data: [1,1, 1, 1, 1]
+                            label: "Status Ticket",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#6193d0"],
+                            data: [<?= strval($this->db->where('ID_STATUS', 1)->from('TICKET')->count_all_results()); ?>,
+                             <?= strval($this->db->where('ID_STATUS', 2)->from('TICKET')->count_all_results()); ?>,
+                              <?= strval($this->db->where('ID_STATUS', 3)->from('TICKET')->count_all_results()); ?>]
                         }]
                     },
                     options: {
                         title: {
                             display: true,
-                            text: 'Predicted world population (millions) in 2050'
+                            text: 'Status Ticket is active from 2021'
+                        }
+                    }
+                });
+
+            //chart ticket dashboard
+                new Chart(document.getElementById("ticket"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["User", "Ticket", "Ticket Log"],
+                        datasets: [{
+                            label: "Status Ticket",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#6193d0"],
+                            data: [<?= $this->db->count_all('USER_SYS'); ?>, 
+                            <?= $this->db->count_all('TICKET'); ?>, 
+                            
+                            <?= $this->db->count_all('TICKET_LOG'); ?>]
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Status Ticket is active from 2021'
                         }
                     }
                 });
