@@ -67,6 +67,14 @@ class Ticket_Model extends CI_Model
         $mnth = date("m") . "-";
         $ticket_id = $d . $mnth . $coo;
 
+        $aa = str_split ($ticket_id, 4);
+        // var_dump(str_split ( string $string [, int $split_length = 1 ] ) : array);die();
+        var_dump((int)$aa[0]);die();
+        // var_dump(str_split ($ticket_id, 3));die();
+        // if(){
+
+        // }
+
         //checkbox solve
         if ($this->input->post('solve') == NULL) {
             $solve = '1';
@@ -427,6 +435,6 @@ class Ticket_Model extends CI_Model
     //Delete Ticket
     public function DeleteTransaksi($id)
     {
-        $this->db->delete('TRANSAKSI', array('ID_TRANSSAKSI' => $id));
+        $this->db->delete('TRANSAKSI', array('ID_TRANSAKSI' => $id));
     }
 }

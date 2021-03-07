@@ -71,8 +71,8 @@
                             <td><?= $v['UPDATE_TIME'] ?>
                             </td>
                             <td>
-                                <a href="<?= base_url('transaksi/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-search text-success"></i></a>
-                                <a href="<?= base_url('transaksi/edittransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-edit text-primary"></i></a>
+                                <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-search text-success"></i></a>
+                                <a href="<?= base_url('ticket/edittransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-edit text-primary"></i></a>
                                 <a href="" data-toggle="modal" data-target="#deleteTransaksi"><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
@@ -96,7 +96,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('transaksi/deletetransaksi/' . $v['ID_TRANSAKSI']); ?>" method="POST">
+            <form action="<?= base_url('ticket/deletetransaksi/' . $v['ID_TRANSAKSI']); ?>" method="POST">
                 <div class="modal-body">
                     <h3>Are you Sure Want to Delete?</h3>
                 </div>
