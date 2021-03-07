@@ -98,44 +98,6 @@ class Ticket extends CI_Controller
         }
     }
 
-    public function edit($id)
-    {
-        $data['title'] = 'Edit Ticket';
-        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Admin_Model->Sidebar();
-        //get all data from table divisi
-        $data['divisi'] = $this->db->get('DIVISI')->result_array();
-        //get all data from table category
-        $data['category'] = $this->db->get('CATEGORY')->result_array();
-        //get all data from table technician
-        $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
-        //get all data form table status_problem
-        $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
-        $data['ticket'] = $this->Ticket_Model->details($id);
-
-        $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
-        $this->form_validation->set_rules('contact', 'Contact', 'required');
-        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
-        $this->form_validation->set_rules('place', 'Place', 'required');
-        $this->form_validation->set_rules('category', 'Category', 'required');
-
-
-        if ($this->form_validation->run() == false) {
-            // run while nothing validation
-            $this->load->view('template/header', $data);
-            $this->load->view('template/sidebar', $data);
-            $this->load->view('template/topbar', $data);
-            $this->load->view('ticket/edit_ticket', $data);
-            $this->load->view('template/footer', $data);
-        } else {
-            // $this->Ticket_Model->edit_ticket;
-            $this->Ticket_Model->updatetiket($id);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Ticket Success!</div>');
-            redirect('ticket');
-        }
-    }
-
-
     public function detail($id)
     {
         $data['title'] = 'Detail Ticket';
@@ -149,13 +111,6 @@ class Ticket extends CI_Controller
         $this->load->view('template/topbar', $data);
         $this->load->view('ticket/detail_ticket', $data);
         $this->load->view('template/footer', $data);
-    }
-
-    public function delete($id)
-    {
-        $this->Ticket_Model->Delete($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
-        redirect('ticket');
     }
 
     // print detail ticket
@@ -209,44 +164,6 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
-    //Edit Ticket Log
-    public function editLog($id)
-    {
-        $data['title'] = 'Edit Ticket lOG';
-        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Admin_Model->Sidebar();
-        //get all data from table divisi
-        $data['divisi'] = $this->db->get('DIVISI')->result_array();
-        //get all data from table category
-        $data['category'] = $this->db->get('CATEGORY')->result_array();
-        //get all data from table technician
-        $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
-        //get all data from table status
-        $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
-        $data['ticket'] = $this->Ticket_Model->detailsLog($id);
-
-        $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
-        $this->form_validation->set_rules('contact', 'Contact', 'required');
-        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
-        $this->form_validation->set_rules('place', 'Place', 'required');
-        $this->form_validation->set_rules('category', 'Category', 'required');
-
-
-        if ($this->form_validation->run() == false) {
-            // run while nothing validation
-            $this->load->view('template/header', $data);
-            $this->load->view('template/sidebar', $data);
-            $this->load->view('template/topbar', $data);
-            $this->load->view('ticketLog/edit_ticketlog', $data);
-            $this->load->view('template/footer', $data);
-        } else {
-            // $this->Ticket_Model->edit_ticket;
-            $this->Ticket_Model->updateTiketLog($id);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit TicketLog Success!</div>');
-            redirect('ticket/ticketlog');
-        }
-    }
-
     //Detail Ticket Login
     public function detailLog($id)
     {
@@ -262,15 +179,7 @@ class Ticket extends CI_Controller
         $this->load->view('ticketLog/detail_ticketlog', $data);
         $this->load->view('template/footer', $data);
     }
-
-
-    public function deleteLog($id)
-    {
-        $this->Ticket_Model->DeleteLog($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
-        redirect('ticket');
-    }
-
+    
 
     // ------------------------------ Transaksi --------------------------------
     //List of Transaksi 

@@ -3,9 +3,8 @@
 
       <!-- Page Heading -->
       <div class="card shadow mb-4">
-          <div class="card-header py-3 justify-content-between row">
+          <div class="card-header py-3 row">
               <h3 class="m-0 font-weight-bold text-primary">Detail Ticket</h3>
-              <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET_LOG']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
           </div>
           <div class="row mt-3">
               <div class="col-lg-10 ml-5">

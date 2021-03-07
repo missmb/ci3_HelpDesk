@@ -33,7 +33,7 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -50,7 +50,7 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -70,10 +70,8 @@
                             <td><?= $v['DATE_SOLVE'] ?>
                             <td><?= $v['UPDATE_TIME'] ?>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <a href="<?= base_url('ticket/detaillog/' . $v['ID_TICKET_LOG']); ?>"><i class="fas fa-search text-success"></i></a>
-                                <a href="<?= base_url('ticket/editlog/' . $v['ID_TICKET_LOG']); ?>"><i class="fas fa-edit text-primary"></i></a>
-                                <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
                         <?php $i++ ?>

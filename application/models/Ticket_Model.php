@@ -18,17 +18,15 @@ class Ticket_Model extends CI_Model
                     ORDER BY T.ID_TICKET DESC";
         return $this->db->query($query)->result_array();
     }
-
-    // function data($number, $offset)
-    // {
-    //     return $query = $this->db->get('TICKET', $number, $offset)->result();
-    // }
-
+    
     //Fitur Search Ticket
     public function get_keyword($keyword)
     {
-
-        $this->db->select('*');
+        $this->db->select('TICKET.*');
+        $this->db->select("to_char(TICKET.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
         $this->db->from('TICKET');
         $this->db->like('ID_TICKET', $keyword);
         $this->db->or_like('USER_COMPLAIN', $keyword);
@@ -98,50 +96,6 @@ class Ticket_Model extends CI_Model
         ]);
     }
 
-    //edit Ticket
-    public function updatetiket($id)
-    {
-        $this->db->where('ID_TICKET', $id);
-        if ($this->input->post('status_problem') == NULL) {
-            // $solve = '1';
-        } else if ($this->input->post('status_problem') == 1) {
-            $solve = 1;
-        } else if ($this->input->post('status_problem') == 2) {
-            $solve = 2;
-        } else if ($this->input->post('status_problem') == 3) {
-            $solve = 3;
-            $this->db->set('DATE_SOLVE', 'sysdate', false);
-        }
-
-        //insert date with time hours, minutes, and seconds
-        //sysdate is method from oracle databases
-        $this->db->where('ID_TICKET', $id);
-        $this->db->set('UPDATE_TIME', 'sysdate', false);
-        $this->db->update('TICKET', [
-            //    'ID_TICKET' => $ticket_id,
-            //get data from user input
-            'USER_COMPLAIN' => $this->input->post('user_complain'),
-            'CONTACT' => $this->input->post('contact'),
-            'ID_DIVISI' => $this->input->post('divisi'),
-            'PLACE' => $this->input->post('place'),
-            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
-            'NOTE' => $this->input->post('note'),
-            //get data user login
-            'ADMIN' => $this->session->userdata('email'),
-            'ID_TECHNICIAN' => $this->input->post('technician'),
-            'ID_CATEGORY' => $this->input->post('category'),
-            'DETAIL' => $this->input->post('detail'),
-            // status default sedang dikerjakan
-            'ID_STATUS' => $this->input->post('status_problem'),
-        ]);
-    }
-
-    //Delete Ticket
-    public function Delete($id)
-    {
-        $this->db->delete('TICKET', array('ID_TICKET' => $id));
-    }
-
     //Search Email Technician
     public function EmailTechnician($id)
     {
@@ -168,7 +122,13 @@ class Ticket_Model extends CI_Model
     //get search data ticket
     public function searchLog($keywordlog)
     {
-        $this->db->select('*');
+        $this->db->select('TICKET_LOG.*');
+        $this->db->select("to_char(TICKET_LOG.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
+        $this->db->select("to_char(TICKET_LOG.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVE");
+        $this->db->select("to_char(TICKET_LOG.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIME");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
         $this->db->from('TICKET_LOG');
         $this->db->like('ID_TICKET_LOG', $keywordlog);
         $this->db->or_like('USER_COMPLAIN', $keywordlog);
@@ -178,7 +138,6 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
         return $this->db->get()->result_array();
-
     }
 
     //insert data ticket to table ticket and status
@@ -237,47 +196,6 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->row_array();
     }
 
-    //edit Ticket
-    public function updateTiketLOG($id)
-    {
-        //insert date with time hours, minutes, and seconds
-        //sysdate is method from oracle databases
-        $this->db->where('ID_TICKET_LOG', $id);
-        if ($this->input->post('status_problem') == NULL) {
-            // $solve = '1';
-        } else if ($this->input->post('status_problem') == 1) {
-            $solve = 1;
-        } else if ($this->input->post('status_problem') == 2) {
-            $solve = 2;
-        } else if ($this->input->post('status_problem') == 3) {
-            $solve = 3;
-            $this->db->set('DATE_SOLVE', 'sysdate', false);
-        }
-        $this->db->set('UPDATE_TIME', 'sysdate', false);
-        $this->db->update('TICKET_LOG', [
-            //get data from user input
-            'USER_COMPLAIN' => $this->input->post('user_complain'),
-            'CONTACT' => $this->input->post('contact'),
-            'ID_DIVISI' => $this->input->post('divisi'),
-            'PLACE' => $this->input->post('place'),
-            //get data user login
-            // 'ADMIN' => $this->session->userdata('email'),
-            'ID_TECHNICIAN' => $this->input->post('technician'),
-            'ID_CATEGORY' => $this->input->post('category'),
-            'DETAIL' => $this->input->post('detail'),
-            // status default sedang dikerjakan
-            // 'ID_STATUS' => $solve,
-            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
-            'NOTE' => $this->input->post('note'),
-        ]);
-    }
-
-    //Delete Ticket
-    public function DeleteLog($id)
-    {
-        $this->db->delete('TICKET_LOG', array('ID_TICKET_LOG' => $id));
-    }
-
 
     // ------------------------------ Transaksi ------------------------
 
@@ -298,7 +216,13 @@ class Ticket_Model extends CI_Model
     //get search data ticket
     public function searchTransaksi($keywordlog)
     {
-        $this->db->select('*');
+        $this->db->select('TRANSAKSI.*');
+        $this->db->select("to_char(TRANSAKSI.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
+        $this->db->select("to_char(TRANSAKSI.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVE");
+        $this->db->select("to_char(TRANSAKSI.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIME");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
         $this->db->from('TRANSAKSI');
         $this->db->like('ID_TRANSAKSI', $keywordlog);
         $this->db->or_like('USER_COMPLAIN', $keywordlog);
