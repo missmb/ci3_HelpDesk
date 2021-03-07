@@ -68,10 +68,10 @@ class Ticket extends CI_Controller
         $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
 
         $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
-        // $this->form_validation->set_rules('contact', 'Contact', 'required');
-        // $this->form_validation->set_rules('divisi', 'Divisi', 'required');
-        // $this->form_validation->set_rules('place', 'Place', 'required');
-        // $this->form_validation->set_rules('category', 'Category', 'required');
+        $this->form_validation->set_rules('contact', 'Contact', 'required');
+        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
+        $this->form_validation->set_rules('place', 'Place', 'required');
+        $this->form_validation->set_rules('category', 'Category', 'required');
 
         if ($this->form_validation->run() == false) {
             // run while nothing validation

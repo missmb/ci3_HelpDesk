@@ -56,24 +56,17 @@ class Ticket_Model extends CI_Model
     //insert data ticket to table ticket and status
     public function Add()
     {
-        // var_dump($this->_AddEntry());die();
-        // $lastEntryNumber = 0 ;
-        // $lastEntryMonth = 0 ;
+    
         //generate custom id
-        $cc = $this->db->count_all('TICKET') + 1;
-        $coun = str_pad($cc, 4, STR_PAD_LEFT);
-        $coo = strrev($coun);
-        $d = date('y');
-        $mnth = date("m") . "-";
-        $ticket_id = $d . $mnth . $coo;
+        $year_month = date('ym');
+        $count_data = count($this->db->query("SELECT ID_TICKET FROM TICKET WHERE ID_TICKET LIKE " . "'" . $year_month ."%'")->result());
+        $plus_data = $count_data + 1;
+        $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
+        $co = strrev($left_id);
+        $y = date('y');
+        $m = date("m") . "-";
+        $id_ticket = $y . $m . $co; //2103-00001
 
-        $aa = str_split ($ticket_id, 4);
-        // var_dump(str_split ( string $string [, int $split_length = 1 ] ) : array);die();
-        var_dump((int)$aa[0]);die();
-        // var_dump(str_split ($ticket_id, 3));die();
-        // if(){
-
-        // }
 
         //checkbox solve
         if ($this->input->post('solve') == NULL) {
@@ -88,7 +81,7 @@ class Ticket_Model extends CI_Model
         $this->db->set('DATE_INSERT', 'sysdate', false);
 
         $this->db->insert('TICKET', [
-            'ID_TICKET' => $ticket_id,
+            'ID_TICKET' => $id_ticket,
             // 'ID_TICKET' => $this->_AddEntry(),
             //get data from user input
             'USER_COMPLAIN' => $this->input->post('user_complain'),
@@ -104,27 +97,6 @@ class Ticket_Model extends CI_Model
             'ID_STATUS' => $solve,
         ]);
     }
-
-    //     // global int $lastEntryNumber;
-    //     //entry
-    //     private function _AddEntry(){
-    //         // int $lastEntryNumber ;
-    //         $lastEntryMonth = date("m") ;
-    // // var_dump($this->db->query("SELECT max(ID_TICKET) FROM TICKET ORDER BY ID_TICKET DESC LIMIT 1") );die();
-    //         if  (date("m") != $lastEntryMonth){
-    //             $lastEntryMonth = date("m");
-    //             $lastEntryNumber = 0 ;
-    //         }
-
-    //         $lastEntryNumber = $lastEntryNumber + 1 ;
-    //         $coun = str_pad($lastEntryNumber, 4, STR_PAD_LEFT);
-    //         $coo = strrev($coun);
-    //         $d = date('y');
-    //         $mnth = date("m") . "-";
-    //         $ticket_id = $d . $mnth . $coo;
-
-    //         return $ticket_id;
-    //     }
 
     //edit Ticket
     public function updatetiket($id)
@@ -207,26 +179,20 @@ class Ticket_Model extends CI_Model
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
         return $this->db->get()->result_array();
 
-        // $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS,
-        // to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
-        //                 FROM TICKET_LOG  T
-        //             JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-        //             JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-        //             JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
-        //             ORDER BY T.ID_TICKET_LOG ASC";
-        // return $this->db->query($query)->result_array();
     }
 
     //insert data ticket to table ticket and status
     public function AddLog()
     {
         //generate custom id
-        $cc = $this->db->count_all('TICKET_LOG') + 1;
-        $coun = str_pad($cc, 4, STR_PAD_LEFT);
-        $coo = strrev($coun);
-        $d = date('y');
-        $mnth = date("m") . "-";
-        $ticket_id = $d . $mnth . $coo;
+        $year_month = date('ym');
+        $count_data = count($this->db->query("SELECT ID_TICKET_LOG FROM TICKET_LOG WHERE ID_TICKET_LOG LIKE " . "'" . $year_month ."%'")->result());
+        $plus_data = $count_data + 1;
+        $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
+        $co = strrev($left_id);
+        $y = date('y');
+        $m = date("m") . "-";
+        $id_ticket = $y . $m . $co; //2103-00001
 
         //checkbox solve
         if ($this->input->post('solve') == NULL) {
@@ -242,7 +208,7 @@ class Ticket_Model extends CI_Model
         $this->db->set('UPDATE_TIME', 'sysdate', false);
 
         $this->db->insert('TICKET_LOG', [
-            'ID_TICKET_LOG' => $ticket_id,
+            'ID_TICKET_LOG' => $id_ticket,
             //get data from user input
             'USER_COMPLAIN' => $this->input->post('user_complain'),
             'CONTACT' => $this->input->post('contact'),
@@ -315,6 +281,7 @@ class Ticket_Model extends CI_Model
 
     // ------------------------------ Transaksi ------------------------
 
+    //list of transaksi
     public function Transaksi()
     {
         $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
@@ -347,12 +314,14 @@ class Ticket_Model extends CI_Model
     public function AddTransaksi()
     {
         //generate custom id
-        $cc = $this->db->count_all('TRANSAKSI') + 1;
-        $coun = str_pad($cc, 4, STR_PAD_LEFT);
-        $coo = strrev($coun);
-        $d = date('y');
-        $mnth = date("m") . "-";
-        $transaksi_id = $d . $mnth . $coo;
+        $year_month = date('ym');
+        $count_data = count($this->db->query("SELECT ID_TRANSAKSI FROM TRANSAKSI WHERE ID_TRANSAKSI LIKE " . "'" . $year_month ."%'")->result());
+        $plus_data = $count_data + 1;
+        $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
+        $co = strrev($left_id);
+        $y = date('y');
+        $m = date("m") . "-";
+        $id_ticket = $y . $m . $co; //2103-00001
 
         //checkbox solve
         if ($this->input->post('solve') == NULL) {
@@ -368,7 +337,7 @@ class Ticket_Model extends CI_Model
         $this->db->set('UPDATE_TIME', 'sysdate', false);
 
         $this->db->insert('TRANSAKSI', [
-            'ID_TRANSAKSI' => $transaksi_id,
+            'ID_TRANSAKSI' => $id_ticket,
             //get data from user input
             'USER_COMPLAIN' => $this->input->post('user_complain'),
             'CONTACT' => $this->input->post('contact'),

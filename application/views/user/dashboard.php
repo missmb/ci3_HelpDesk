@@ -51,7 +51,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Ticket Log
+                                    Ticket Log
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
@@ -72,12 +72,13 @@
                 </div>
             </div>
 
-        <!-- Content Row -->
+            <!-- Content Row -->
 
+        </div>
+        <!-- /.container-fluid -->
+        <div class="row">
+            <canvas id="status-ticket" width="600" height="350" class="col-md-6"></canvas>
+            <canvas id="ticket" width="600" height="350" class="col-md-6"></canvas>
+        </div>
     </div>
-    <!-- /.container-fluid -->
-<div class="row">
-  <canvas id="status-ticket" width="600" height="350" class="col-md-6"></canvas>
-  <canvas id="ticket" width="600" height="350" class="col-md-6"></canvas>
-</div>
 </div>
