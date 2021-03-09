@@ -166,8 +166,8 @@ class Ticket extends CI_Controller
         $data['result'] =  $this->db->count_all('TICKET_LOG');
 
         //pagination
-        $config['base_url'] = base_url() . 'ticket/index';
-        $config['total_rows'] = $this->db->count_all('TICKET'); //total row
+        $config['base_url'] = base_url() . 'ticket/ticketlog';
+        $config['total_rows'] = $this->db->count_all('TICKET_LOG'); //total row
         $config['per_page'] = 3;  //show record per page
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
@@ -257,7 +257,7 @@ class Ticket extends CI_Controller
 
 
         //pagination
-        $config['base_url'] = base_url() . 'ticket/index';
+        $config['base_url'] = base_url() . 'ticket/transaksi';
         $config['total_rows'] = $this->db->count_all('TICKET'); //total row
         $config['per_page'] = 2;  //show record per page
         $config["uri_segment"] = 3;  // uri parameter

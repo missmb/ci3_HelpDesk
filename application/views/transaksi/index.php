@@ -54,10 +54,10 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <?php $i = 1; ?>
+                    <?php $no = $this->uri->segment('3') + 1; ?>
                     <?php foreach ($data as $v) : ?>
                         <tr>
-                            <td><?= $i ?></td>
+                            <td><?= $no ?></td>
                             <td><?= $v['ID_TRANSAKSI'] ?></td>
                             <td><?= $v['USER_COMPLAIN'] ?></td>
                             <td><?= $v['CONTACT'] ?></td>
@@ -76,10 +76,16 @@
                                 <a href="" data-toggle="modal" data-target="#deleteTransaksi"><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
-                        <?php $i++ ?>
+                        <?php $no++ ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col">
+                    <!--Show pagination-->
+                    <?php echo $pagination; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
