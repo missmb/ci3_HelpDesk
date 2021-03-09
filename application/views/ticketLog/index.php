@@ -55,7 +55,7 @@
                 </tfoot>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($ticket as $v) : ?>
+                    <?php foreach ($data as $v) : ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $v['ID_TICKET_LOG'] ?></td>

@@ -4,19 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Ticket_Model extends CI_Model
 {
-
-    //get all data ticket
-    public function Ticket()
+    function data($limit, $start)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
-        to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
-                        FROM TICKET  T
-                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
-                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-                    ORDER BY T.ID_TICKET DESC";
-        return $this->db->query($query)->result_array();
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        return $this->db->get("TICKET", $limit, $start)->result_array();
     }
 
     //Fitur Search Ticket
@@ -106,18 +99,12 @@ class Ticket_Model extends CI_Model
 
     // ------------------------------ Ticket Log ------------------------
 
-    //get all data ticket
-    public function TicketLog()
+    function dataLog($limit, $start)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
-        to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
-                        FROM TICKET_LOG  T
-                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
-                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-                    ORDER BY T.ID_TICKET_LOG DESC";
-        return $this->db->query($query)->result_array();
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
+        return $this->db->get("TICKET_LOG", $limit, $start)->result_array();
     }
 
     //get search data ticket
@@ -202,17 +189,12 @@ class Ticket_Model extends CI_Model
     // ------------------------------ Transaksi ------------------------
 
     //list of transaksi
-    public function Transaksi()
+    function dataTransaksi($limit, $start)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
-        to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
-                        FROM TRANSAKSI  T
-                    LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
-                    LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
-                    LEFT JOIN STATUS_PROBLEM S ON T.ID_STATUS = S.ID_STATUS
-                    LEFT JOIN TECHNICIAN K ON T.ID_TECHNICIAN = K.ID_TECHNICIAN
-                    ORDER BY T.ID_TRANSAKSI DESC";
-        return $this->db->query($query)->result_array();
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
+        return $this->db->get("TRANSAKSI", $limit, $start)->result_array();
     }
 
     //get search data ticket

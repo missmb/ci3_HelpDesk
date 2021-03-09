@@ -53,8 +53,9 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <?php $i = 1; $no = $this->uri->segment('3') + 1;?>
-                    <?php foreach ($ticket as $v) : ?>
+                    <?php $i = 1;
+                    $no = $this->uri->segment('3') + 1; ?>
+                    <?php foreach ($data as $v) : ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $v['ID_TICKET'] ?></td>
@@ -76,6 +77,12 @@
                     <?= $this->pagination->create_links(); ?>
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col">
+                    <!--Tampilkan pagination-->
+                    <?php echo $pagination; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
