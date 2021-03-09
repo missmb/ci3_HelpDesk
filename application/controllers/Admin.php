@@ -84,6 +84,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Menu Management';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['menumanag'] =  $this->db->get('USER_MENU')->result_array();
 
         $this->form_validation->set_rules('menu', 'Menu', 'required');
 

@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($menu as $m) : ?>
+                    <?php foreach ($menumanag as $m) : ?>
                         <tr>
                             <th scope="col"><?= $i; ?></th>
                             <th scope="col"><?= $m['MENU']; ?></th>
