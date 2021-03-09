@@ -15,7 +15,15 @@
 
       <?php foreach ($menu as $m) : ?>
           <div class="sidebar-heading">
-              <?= $m['MENU']; ?>
+              <?php
+                $menuId = $m['MENU_ID'];
+                $querySubMenu =  "SELECT MENU
+                                    FROM USER_MENU
+                                    WHERE MENU_ID = $menuId
+            ";
+                $Menu = $this->db->query($querySubMenu)->row_array();
+                ?>
+              <?= $Menu['MENU'] ?>
           </div>
           <!-- LOOPING SUB MENU -->
           <?php
