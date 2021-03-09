@@ -43,7 +43,7 @@
                 <div class="form-group row">
                     <label for="category" class="col-sm-3 control-label">Category</label>
                     <select name="category" id="category" class="form-control col-sm-9">
-                        <option value="<?= $transaksi['ID_CATEGORY'] ?>"><?= $transaksi['CATEGORY'] ?></option>
+                        <option value="<?= $transaksi['ID_CATEGORY'] ?>">Select Category</option>
                         <?php foreach ($category as $v) : ?>
                             <option value="<?= $v['ID_CATEGORY']; ?>"><?= $v['CATEGORY']; ?></option>
                         <?php endforeach; ?>
@@ -57,7 +57,7 @@
                 <div class="form-group row">
                     <label for="technician" class="col-sm-3 control-label">Technician</label>
                     <select name="technician" id="technician" class="form-control col-sm-9">
-                        <option value="<?= $transaksi['ID_TECHNICIAN'] ?>"><?= $transaksi['TECHNICIAN_NAME'] ?> - <?= $transaksi['CATEGORY'] ?></option>
+                        <option value="<?= $transaksi['ID_TECHNICIAN'] ?>">Select Technician</option>
                         <?php foreach ($technician as $v) : ?>
                             <option value="<?= $v['ID_TECHNICIAN']; ?>"><?= $v['TECHNICIAN_NAME']; ?> - <?= $v['DIVISI']; ?></option>
                         <?php endforeach; ?>
@@ -66,7 +66,7 @@
                 <div class="form-group row">
                     <label for="status_problem" class="col-sm-3 control-label">Status</label>
                     <select name="status_problem" id="status_problem" class="form-control col-sm-9">
-                        <option value="<?= $transaksi['ID_STATUS']; ?>"><?= $transaksi['STATUS']; ?></option>
+                        <option value="<?= $transaksi['ID_STATUS']; ?>">Select Status</option>
                         <?php foreach ($status as $v) : ?>
                             <option value="<?= $v['ID_STATUS']; ?>"><?= $v['STATUS']; ?></option>
                         <?php endforeach; ?>

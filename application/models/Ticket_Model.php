@@ -302,21 +302,30 @@ class Ticket_Model extends CI_Model
     //edit Transaksi
     public function updateTransaksi($id)
     {
-
-        var_dump($this->input->post('id_transaksi'));
-        die();
-
         //insert date with time hours, minutes, and seconds
         //sysdate is method from oracle databases
-        $this->db->where('ID_TRANSAKSI', $id);
         if ($this->input->post('status_problem') == NULL) {
             // $solve = '1';
         } else if ($this->input->post('status_problem') == 1) {
             $solve = 1;
-        } else if ($this->input->post('status_problem') == 2) {
-            $solve = 2;
-        } else if ($this->input->post('status_problem') == 3) {
-            $solve = 3;
+        } else {
+            if ($this->input->post('status_problem') == 2) {
+                $solve = 2;
+                // update status on ticket
+                $this->_updateStatusTicket($id, $solve);
+                // update status on ticketLog
+                $this->_updateStatusLog($id, $solve);
+            } else if ($this->input->post('status_problem') == 3) {
+                $solve = 3;
+                // update status on ticket
+                $this->_updateStatusTicket($id, $solve);
+                // update status on ticketLog
+                $this->_updateStatusLog($id, $solve);
+            }
+        }
+        $this->db->where('ID_TRANSAKSI', $id);
+        if ($solve == 3) {
+            // update date solve to now
             $this->db->set('DATE_SOLVE', 'sysdate', false);
         }
         $this->db->set('UPDATE_TIME', 'sysdate', false);
@@ -342,5 +351,50 @@ class Ticket_Model extends CI_Model
     public function DeleteTransaksi($id)
     {
         $this->db->delete('TRANSAKSI', array('ID_TRANSAKSI' => $id));
+    }
+
+    private function _updateStatusLog($id, $solve)
+    {
+
+        if ($solve == 3) {
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->set('DATE_INSERT', 'sysdate', false);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+
+        $this->db->insert('TICKET_LOG', [
+            'ID_TICKET_LOG' => $id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            'ID_STATUS' => $solve,
+            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+            'NOTE' => $this->input->post('note'),
+        ]);
+    }
+
+    private function _updateStatusTicket($id, $solve)
+    {
+        $this->db->where('ID_TICKET', $id);
+        if ($solve == 3) {
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+        //sysdate is method from oracle databases
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+        $this->db->update('TICKET', [
+            'ID_STATUS' => $solve,
+            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+            'NOTE' => $this->input->post('note'),
+        ]);
     }
 }
