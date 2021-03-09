@@ -41,7 +41,8 @@ class Ticket_Model extends CI_Model
     //Details ticket
     public function details($id)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
+         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TICKET  T
                     JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
                     JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
@@ -186,7 +187,8 @@ class Ticket_Model extends CI_Model
     //detail ticket Log
     public function detailsLog($id)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
+         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TICKET_LOG  T
                     LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
                     LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI
@@ -289,7 +291,8 @@ class Ticket_Model extends CI_Model
     //detail ticket Log
     public function detailsTransaksi($id)
     {
-        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME
+        $query = " SELECT T.*, C.CATEGORY, D.DIVISI, S.STATUS, K.TECHNICIAN_NAME,
+         to_char(T.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT, to_char(T.DATE_SOLVE, 'dd-mm-yy hh24:mi') DATE_SOLVE, to_char(T.UPDATE_TIME, 'dd-mm-yy hh24:mi') UPDATE_TIME
                         FROM TRANSAKSI  T
                     LEFT JOIN CATEGORY C ON T.ID_CATEGORY = C.ID_CATEGORY
                     LEFT JOIN DIVISI D ON T.ID_DIVISI = D.ID_DIVISI

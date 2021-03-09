@@ -11,27 +11,27 @@
               <div class="col-lg-10 ml-5">
                   <div class="form-group row">
                       <label for="user_complain" class="col-sm-3 control-label">ID Ticket</label>
-                      <?= $id['ID_TICKET'] ?>
+                      <?= $ticket['ID_TICKET'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="user_complain" class="col-sm-3 control-label">User Complain</label>
-                      <?= $id['USER_COMPLAIN'] ?>
+                      <?= $ticket['USER_COMPLAIN'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="contact" class="col-sm-3 control-label">Contact</label>
-                      <?= $id['CONTACT'] ?>
+                      <?= $ticket['CONTACT'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="date_insert" class="col-sm-3 control-label">Date Insert</label>
-                      <?= $id['DATE_INSERT'] ?>
+                      <?= $ticket['DATE_INSERT'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="date_solve" class="col-sm-3 control-label">Date Solve</label>
-                      <?= $id['DATE_SOLVE'] ?>
+                      <?= $ticket['DATE_SOLVE'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="update_time" class="col-sm-3 control-label">Date Modified</label>
-                      <?= $id['UPDATE_TIME'] ?>
+                      <?= $ticket['UPDATE_TIME'] ?>
                   </div>
                   <div class="form-group row">
                       <label for="divisi" class="col-sm-3 control-label">Divisi</label>

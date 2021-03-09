@@ -104,7 +104,6 @@ class Ticket extends CI_Controller
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->db->get('USER_MENU')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
-        $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
