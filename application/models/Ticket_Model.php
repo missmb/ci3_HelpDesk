@@ -18,7 +18,7 @@ class Ticket_Model extends CI_Model
                     ORDER BY T.ID_TICKET DESC";
         return $this->db->query($query)->result_array();
     }
-    
+
     //Fitur Search Ticket
     public function get_keyword($keyword)
     {
@@ -54,10 +54,10 @@ class Ticket_Model extends CI_Model
     //insert data ticket to table ticket and status
     public function Add()
     {
-    
+
         //generate custom id
         $year_month = date('ym');
-        $count_data = count($this->db->query("SELECT ID_TICKET FROM TICKET WHERE ID_TICKET LIKE " . "'" . $year_month ."%'")->result());
+        $count_data = count($this->db->query("SELECT ID_TICKET FROM TICKET WHERE ID_TICKET LIKE " . "'" . $year_month . "%'")->result());
         $plus_data = $count_data + 1;
         $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
         $co = strrev($left_id);
@@ -145,8 +145,8 @@ class Ticket_Model extends CI_Model
     {
         //generate custom id
         $year_month = date('ym');
-        $count_data = count($this->db->query("SELECT ID_TICKET_LOG FROM TICKET_LOG WHERE ID_TICKET_LOG LIKE " . "'" . $year_month ."%'")->result());
-        $plus_data = $count_data + 1;
+        $count_data = count($this->db->query("SELECT ID_TICKET FROM TICKET WHERE ID_TICKET LIKE " . "'" . $year_month . "%'")->result());
+        $plus_data = $count_data;
         $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
         $co = strrev($left_id);
         $y = date('y');
@@ -226,8 +226,17 @@ class Ticket_Model extends CI_Model
         $this->db->from('TRANSAKSI');
         $this->db->like('ID_TRANSAKSI', $keywordlog);
         $this->db->or_like('USER_COMPLAIN', $keywordlog);
+        $this->db->or_like('CONTACT', $keywordlog);
+        $this->db->or_like('PLACE', $keywordlog);
+        $this->db->or_like('ID_TECHNICIAN', $keywordlog);
         $this->db->or_like('ID_CATEGORY', $keywordlog);
         $this->db->or_like('DETAIL', $keywordlog);
+        $this->db->or_like('ID_STATUS', $keywordlog);
+        $this->db->or_like('HOW_TO_SOLVE', $keywordlog);
+        $this->db->or_like('DATE_INSERT', $keywordlog);
+        $this->db->or_like('DATE_SOLVE', $keywordlog);
+        $this->db->or_like('NOTE', $keywordlog);
+        $this->db->or_like('UPDATE_TIME', $keywordlog);
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
@@ -239,8 +248,8 @@ class Ticket_Model extends CI_Model
     {
         //generate custom id
         $year_month = date('ym');
-        $count_data = count($this->db->query("SELECT ID_TRANSAKSI FROM TRANSAKSI WHERE ID_TRANSAKSI LIKE " . "'" . $year_month ."%'")->result());
-        $plus_data = $count_data + 1;
+        $count_data = count($this->db->query("SELECT ID_TICKET FROM TICKET WHERE ID_TICKET LIKE " . "'" . $year_month . "%'")->result());
+        $plus_data = $count_data;
         $left_id = str_pad($plus_data, 4, STR_PAD_LEFT);
         $co = strrev($left_id);
         $y = date('y');
@@ -293,6 +302,10 @@ class Ticket_Model extends CI_Model
     //edit Transaksi
     public function updateTransaksi($id)
     {
+
+        var_dump($this->input->post('id_transaksi'));
+        die();
+
         //insert date with time hours, minutes, and seconds
         //sysdate is method from oracle databases
         $this->db->where('ID_TRANSAKSI', $id);
@@ -319,7 +332,7 @@ class Ticket_Model extends CI_Model
             'ID_CATEGORY' => $this->input->post('category'),
             'DETAIL' => $this->input->post('detail'),
             // status default sedang dikerjakan
-            // 'ID_STATUS' => $solve,
+            'ID_STATUS' => $solve,
             'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
             'NOTE' => $this->input->post('note'),
         ]);

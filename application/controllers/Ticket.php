@@ -180,6 +180,9 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
     
+    public function updateStatus($data){
+        $this->db->insert();
+    }
 
     // ------------------------------ Transaksi --------------------------------
     //List of Transaksi 

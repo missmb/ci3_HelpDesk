@@ -9,12 +9,12 @@
             <?= $this->session->flashdata('message'); ?>
             <form action="<?= base_url('ticket/edittransaksi/' . $transaksi["ID_TRANSAKSI"]); ?>" method="POST">
                 <div class="form-group row">
-                    <label for="user_complain" class="col-sm-3 control-label">ID TICKET</label>
-                    <input type="disable" name="id_transaksi" value="<?php echo $transaksi['ID_TRANSAKSI'] ?>" disabled>
+                    <label for="id_transaksi" class="col-sm-3 control-label">ID TICKET</label>
+                    <input type="text" name="id_transaksi" value="<?php echo $transaksi['ID_TRANSAKSI'] ?>" disabled>
                 </div>
                 <div class="form-group row">
                     <label for="date_insert" class="col-sm-3 control-label">Date Insert</label>
-                    <input type="disable" name="date_insert" value="<?php echo $transaksi['DATE_INSERT'] ?>" disabled>
+                    <input type="text" name="date_insert" value="<?php echo $transaksi['DATE_INSERT'] ?>" disabled>
                 </div>
                 <div class="form-group row">
                     <label for="user_complain" class="col-sm-3 control-label">User Complain</label>
