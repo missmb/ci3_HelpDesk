@@ -18,6 +18,7 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    //----------------------------SEARCH TICKET----------------------------------------------------------
     public function get_keyword($keyword)
     {
 
@@ -25,8 +26,14 @@ class Ticket_Model extends CI_Model
         $this->db->from('TICKET');
         $this->db->like('ID_TICKET', $keyword);
         $this->db->or_like('USER_COMPLAIN', $keyword);
-        $this->db->or_like('ID_CATEGORY', $keyword);
+        $this->db->or_like('CONTACT', $keyword);
+        $this->db->or_like('DIVISI', $keyword);
+        $this->db->or_like('PLACE', $keyword);
+        $this->db->or_like('DATE_INSERT', $keyword);
+        $this->db->or_like('CATEGORY', $keyword);
         $this->db->or_like('DETAIL', $keyword);
+        $this->db->or_like('STATUS', $keyword);
+        $this->db->or_like('DATE_SOLVE', $keyword);
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
@@ -85,34 +92,34 @@ class Ticket_Model extends CI_Model
         ]);
     }
 
-         public function updatetiket($id)
+    public function updatetiket($id)
     {
-       //generate custom id
-       $cc = $this->db->count_all('TICKET') + 1;
-       $coun = str_pad($cc, 4, STR_PAD_LEFT);
-       $coo = strrev($coun);
-       $d = date('y');
-       $mnth = date("m") . "-";
-       $ticket_id = $d . $mnth . $coo;
-       //insert date with time hours, minutes, and seconds
-       //sysdate is method from oracle databases
-       $this->db->where('ID_TICKET', $id);
-       $this->db->set('UPDATE_TIME', 'sysdate', false);
-       $this->db->update('TICKET', [
-        //    'ID_TICKET' => $ticket_id,
-           //get data from user input
-           'USER_COMPLAIN' => $this->input->post('user_complain'),
-           'CONTACT' => $this->input->post('contact'),
-           'ID_DIVISI' => $this->input->post('divisi'),
-           'PLACE' => $this->input->post('place'),
-           //get data user login
-           'ADMIN' => $this->session->userdata('email'),
-           'ID_TECHNICIAN' => $this->input->post('technician'),
-           'ID_CATEGORY' => $this->input->post('category'),
-           'DETAIL' => $this->input->post('detail'),
-           // status default sedang dikerjakan
-           'ID_STATUS' =>$this->input-post('status'),
-       ]);
+        //generate custom id
+        $cc = $this->db->count_all('TICKET') + 1;
+        $coun = str_pad($cc, 4, STR_PAD_LEFT);
+        $coo = strrev($coun);
+        $d = date('y');
+        $mnth = date("m") . "-";
+        $ticket_id = $d . $mnth . $coo;
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->where('ID_TICKET', $id);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+        $this->db->update('TICKET', [
+            //    'ID_TICKET' => $ticket_id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            //    'ID_STATUS' =>$this->input-post('status'),
+        ]);
     }
 
     //Delete Ticket
@@ -137,8 +144,14 @@ class Ticket_Model extends CI_Model
         $this->db->from('TICKET_LOG');
         $this->db->like('ID_TICKET_LOG', $keywordlog);
         $this->db->or_like('USER_COMPLAIN', $keywordlog);
-        $this->db->or_like('ID_CATEGORY', $keywordlog);
+        $this->db->or_like('CONTACT', $keywordlog);
+        $this->db->or_like('DIVISI', $keywordlog);
+        $this->db->or_like('PLACE', $keywordlog);
+        $this->db->or_like('DATE_INSERT', $keywordlog);
+        $this->db->or_like('CATEGORY', $keywordlog);
         $this->db->or_like('DETAIL', $keywordlog);
+        $this->db->or_like('STATUS', $keywordlog);
+        $this->db->or_like('DATE_SOLVE', $keywordlog);
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
