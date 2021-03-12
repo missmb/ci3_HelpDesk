@@ -28,10 +28,10 @@ function is_logged_in()
         // $queryMenu = $ci->db->get_where('USER_MENU', ['MENU' => $menu])->row_array();
 
 
-        $userAccess = $ci->db->get_where(
-            'USER_ACCESS_MENU',
-            ['ROLE_ID' => $role_id, 'MENU_ID' => $menu_id]
-        );
+        // $userAccess = $ci->db->get_where(
+        //     'USER_ACCESS_MENU',
+        //     ['ROLE_ID' => $role_id, 'MENU_ID' => $menu_id]
+        // );
         // var_dump($queryMenu);die;
         // var_dump($queryMenu);die;
         if ($userAccess->num_rows() < 1) {

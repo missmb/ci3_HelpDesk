@@ -4,13 +4,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Ticket extends CI_Controller
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        is_logged_in();
+    }
+    
     //ticket list table
     public function index()
     {
+        // var_dump($this->db->select('ID_TICKET')->from('TICKET')->order_by('ID_TICKET',"desc")->limit(1));die();
         $data['title'] = 'Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-        $data['ticket'] = $this->Ticket_Model->Ticket();
+        //count all data from table ticket
+        $data['result'] =  $this->db->count_all('TICKET');
+
+        //pagination
+        $config['base_url'] = base_url() . 'ticket/index';
+        $config['total_rows'] = $this->db->count_all('TICKET'); //total row
+        $config['per_page'] = 2;  //show record per page
+        $config["uri_segment"] = 3;  // uri parameter
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+ 
+        // Create Style pagination for BootStrap v4
+      $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+ 
+        $this->pagination->initialize($config);
+        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+ 
+        //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
+        $data['data'] = $this->Ticket_Model->data($config["per_page"], $data['page']);           
+ 
+        $data['pagination'] = $this->pagination->create_links();
+ 
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -19,15 +64,20 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
+    //Fitur Search Ticket
     public function search()
     {
         $data['title'] = 'Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
+        //get keyword search
         $keyword = $this->input->post('keyword');
         $data['ticket'] = $this->Ticket_Model->get_keyword($keyword);
-        // var_dump($data['ticket']);
-        // die();
+        // $aa= $this->db->select('*')->from('TICKET')->like('ID_TICKET', $keyword)->result_array();
+        //count all data from table ticket
+        $data['result'] =  count($this->Ticket_Model->get_keyword($keyword));
+
+        // var_dump($data['ticket']);die();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -65,10 +115,12 @@ class Ticket extends CI_Controller
             $this->Ticket_Model->Add();
             //Insert Data TicketLog
             $this->Ticket_Model->AddLog();
+            //Insert Data TicketLog
+            $this->Ticket_Model->AddTransaksi();
 
             if ($this->input->post('technician') != null) {
                 //Send Email to Technician
-                $this->_sendEmail();
+                // $this->_sendEmail();
             }
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New Ticket added!</div>');
@@ -76,66 +128,18 @@ class Ticket extends CI_Controller
         }
     }
 
-    public function edit($id)
-    {
-        $data['title'] = 'Edit Ticket';
-        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->Admin_Model->Sidebar();
-        //get all data from table divisi
-        $data['divisi'] = $this->db->get('DIVISI')->result_array();
-        //get all data from table category
-        $data['category'] = $this->db->get('CATEGORY')->result_array();
-        //get all data from table technician
-        $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
-        $data['ticket'] = $this->Ticket_Model->details($id);
-
-        $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
-        $this->form_validation->set_rules('contact', 'Contact', 'required');
-        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
-        $this->form_validation->set_rules('place', 'Place', 'required');
-        $this->form_validation->set_rules('category', 'Category', 'required');
-
-
-        if ($this->form_validation->run() == false) {
-            // run while nothing validation
-            $this->load->view('template/header', $data);
-            $this->load->view('template/sidebar', $data);
-            $this->load->view('template/topbar', $data);
-            $this->load->view('ticket/edit_ticket', $data);
-            $this->load->view('template/footer', $data);
-           
-        } else {
-            // $this->Ticket_Model->edit_ticket;
-            $this->Ticket_Model->updatetiket($id);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Ticket Success!</div>');
-            redirect('ticket');
-        }
-    } 
-    
-
     public function detail($id)
     {
         $data['title'] = 'Detail Ticket';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->db->get('USER_MENU')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
-        $data['id'] = $this->db->get_where('TICKET', ['ID_TICKET' => $id])->row_array();
-        //var_dump($data['ticket']);
-        //die();
-
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
         $this->load->view('ticket/detail_ticket', $data); 
         $this->load->view('template/footer', $data);
-    }
-
-    public function delete($id)
-    {
-        $this->Ticket_Model->Delete($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
-        redirect('ticket');
     }
 
     // print detail ticket
@@ -159,9 +163,65 @@ class Ticket extends CI_Controller
         $data['title'] = 'Ticket Log';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-        $keywordlog = $this->input->post('keywordlog');
-        $data['ticket'] = $this->Ticket_Model->ticketLog($keywordlog);
+        $data['result'] =  $this->db->count_all('TICKET_LOG');
 
+        //pagination
+        $config['base_url'] = base_url() . 'ticket/ticketlog';
+        $config['total_rows'] = $this->db->count_all('TICKET_LOG'); //total row
+        $config['per_page'] = 3;  //show record per page
+        $config["uri_segment"] = 3;  // uri parameter
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+ 
+        // Create Style pagination for BootStrap v4
+      $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+ 
+        $this->pagination->initialize($config);
+        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+ 
+        //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
+        $data['data'] = $this->Ticket_Model->dataLog($config["per_page"], $data['page']);           
+ 
+        $data['pagination'] = $this->pagination->create_links();
+
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('ticketLog/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    //Search of tickets log
+    public function searchLog()
+    {
+        $data['title'] = 'Ticket Log';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        //get keyword search
+        $keywordlog = $this->input->post('keywordlog');
+        $data['ticket'] = $this->Ticket_Model->searchLog($keywordlog);
+        //count all data from table ticket_log
+        $data['result'] =  count($this->Ticket_Model->searchLog($keywordlog));
+
+        // var_dump($data['ticket']);die();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
@@ -183,6 +243,142 @@ class Ticket extends CI_Controller
         $this->load->view('template/topbar', $data);
         $this->load->view('ticketLog/detail_ticketlog', $data);
         $this->load->view('template/footer', $data);
+    }
+    
+
+    // ------------------------------ Transaksi --------------------------------
+    //List of Transaksi 
+    public function transaksi()
+    {
+        $data['title'] = 'Transaksi';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['result'] =  $this->db->count_all('TRANSAKSI');
+
+
+        //pagination
+        $config['base_url'] = base_url() . 'ticket/transaksi';
+        $config['total_rows'] = $this->db->count_all('TICKET'); //total row
+        $config['per_page'] = 2;  //show record per page
+        $config["uri_segment"] = 3;  // uri parameter
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+ 
+        // Create Style pagination for BootStrap v4
+      $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+ 
+        $this->pagination->initialize($config);
+        $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+ 
+        //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
+        $data['data'] = $this->Ticket_Model->dataTransaksi($config["per_page"], $data['page']);           
+ 
+        $data['pagination'] = $this->pagination->create_links();
+
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('transaksi/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    //Search of transaksi
+    public function searchTransaksi()
+    {
+        $data['title'] = 'Transaksi';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        //get keyword search
+        $keywordlog = $this->input->post('keywordlog');
+        $data['transaksi'] = $this->Ticket_Model->searchTransaksi($keywordlog);
+        //count all data from table transaksi
+        $data['result'] =  count($this->Ticket_Model->searchTransaksi($keywordlog));
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('transaksi/index', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+    //Edit Transaksi
+    public function editTransaksi($id)
+    {
+        $data['title'] = 'Edit Transaksi';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        //get all data from table divisi
+        $data['divisi'] = $this->db->get('DIVISI')->result_array();
+        //get all data from table category
+        $data['category'] = $this->db->get('CATEGORY')->result_array();
+        //get all data from table technician
+        $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
+        //get all data from table status
+        $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
+        $data['transaksi'] = $this->Ticket_Model->detailsTransaksi($id);
+
+        $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
+        $this->form_validation->set_rules('contact', 'Contact', 'required');
+        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
+        $this->form_validation->set_rules('place', 'Place', 'required');
+        $this->form_validation->set_rules('category', 'Category', 'required');
+
+
+        if ($this->form_validation->run() == false) {
+            // run while nothing validation
+            $this->load->view('template/header', $data);
+            $this->load->view('template/sidebar', $data);
+            $this->load->view('template/topbar', $data);
+            $this->load->view('transaksi/edit_transaksi', $data);
+            $this->load->view('template/footer', $data);
+        } else {
+            // $this->Ticket_Model->edit_ticket;
+            $this->Ticket_Model->updateTransaksi($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Transaksi Success!</div>');
+            redirect('ticket/transaksi');
+        }
+    }
+
+    //Detail Ticket Login
+    public function detailTransaksi($id)
+    {
+        $data['title'] = 'Detail Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
+        $data['transaksi'] = $this->Ticket_Model->detailsTransaksi($id);
+
+        // var_dump($data['ticket']);die();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar', $data);
+        $this->load->view('template/topbar', $data);
+        $this->load->view('transaksi/detail_transaksi', $data);
+        $this->load->view('template/footer', $data);
+    }
+
+
+    public function deleteTransaksi($id)
+    {
+        $this->Ticket_Model->DeleteTransaksi($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Transaksi!</div>');
+        redirect('ticket/transaksi');
     }
 
     // send email to Technician

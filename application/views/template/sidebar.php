@@ -2,7 +2,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('user/dashboard'); ?>">
           <div class="sidebar-brand-icon rotate-n-15">
               <i class="fas fa-code"></i>
           </div>
@@ -15,7 +15,15 @@
 
       <?php foreach ($menu as $m) : ?>
           <div class="sidebar-heading">
-              <?= $m['MENU']; ?>
+              <?php
+                $menuId = $m['MENU_ID'];
+                $querySubMenu =  "SELECT MENU
+                                    FROM USER_MENU
+                                    WHERE MENU_ID = $menuId
+            ";
+                $Menu = $this->db->query($querySubMenu)->row_array();
+                ?>
+              <?= $Menu['MENU'] ?>
           </div>
           <!-- LOOPING SUB MENU -->
           <?php

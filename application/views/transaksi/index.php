@@ -1,7 +1,7 @@
 <div class="row mt-3 mb-3">
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
-        <form action="<?= base_url('ticket/searchlog'); ?>" method="post">
+        <form action="<?= base_url('ticket/searchtransaksi'); ?>" method="post">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Search Keyword" name="keywordlog" autofocus>
                 <button class="btn btn-primary" type="submit" nama="submit">Search</button>
@@ -33,7 +33,7 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th class="text-center">Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -50,7 +50,7 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th class="text-center">Action</th>
+                        <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -58,7 +58,7 @@
                     <?php foreach ($data as $v) : ?>
                         <tr>
                             <td><?= $no ?></td>
-                            <td><?= $v['ID_TICKET_LOG'] ?></td>
+                            <td><?= $v['ID_TRANSAKSI'] ?></td>
                             <td><?= $v['USER_COMPLAIN'] ?></td>
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>
@@ -70,8 +70,10 @@
                             <td><?= $v['DATE_SOLVE'] ?>
                             <td><?= $v['UPDATE_TIME'] ?>
                             </td>
-                            <td class="text-center">
-                                <a href="<?= base_url('ticket/detaillog/' . $v['ID_TICKET_LOG']); ?>"><i class="fas fa-search text-success"></i></a>
+                            <td>
+                                <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-search text-success"></i></a>
+                                <a href="<?= base_url('ticket/edittransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-edit text-primary"></i></a>
+                                <a href="" data-toggle="modal" data-target="#deleteTransaksi"><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
                         <?php $no++ ?>
@@ -80,7 +82,7 @@
             </table>
             <div class="row">
                 <div class="col">
-                    <!--show pagination-->
+                    <!--Show pagination-->
                     <?php echo $pagination; ?>
                 </div>
             </div>
@@ -90,17 +92,17 @@
 </div>
 
 
-<!-- Modal Delete Ticket -->
-<div class="modal fade" id="deleteTicket" tabindex="-1" role="dialog" aria-labelledby="deleteTicketLabel" aria-hidden="true">
+<!-- Modal Delete Transaksi -->
+<div class="modal fade" id="deleteTransaksi" tabindex="-1" role="dialog" aria-labelledby="deleteTransaksiLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteTicketLabel">Add New Role</h5>
+                <h5 class="modal-title" id="deleteTransaksiLabel">Add New Role</h5>
                 <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('ticket/deletelog/' . $v['ID_TICKET_LOG']); ?>" method="POST">
+            <form action="<?= base_url('ticket/deletetransaksi/' . $v['ID_TRANSAKSI']); ?>" method="POST">
                 <div class="modal-body">
                     <h3>Are you Sure Want to Delete?</h3>
                 </div>
