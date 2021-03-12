@@ -47,7 +47,7 @@ class Admin extends CI_Controller
         $data['role'] = $this->db->get_where('USER_ROLE', ['ROLE_ID' => $role_id])->row_array();
 
         $this->db->where('MENU_ID !=', 1);
-        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
     
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -144,7 +144,7 @@ class Admin extends CI_Controller
 
         // $data['subMenu'] = $this->db->get('user_sub_menu')->result_array();
         $data['subMenu'] = $this->menu->getSubMenu();
-        $data['menu'] = $this->Admin_Model->Sidebar();
+        $data['menu'] = $this->db->get('USER_MENU')->result_array();
 
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('menu_id', 'Menu_id', 'required');

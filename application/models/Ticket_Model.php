@@ -9,6 +9,7 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        $this->db->order_by('TICKET.ID_TICKET', 'DESC');
         return $this->db->get("TICKET", $limit, $start)->result_array();
     }
 
@@ -104,6 +105,8 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
+        $this->db->order_by('TICKET_LOG.ID_TICKET_LOG', 'DESC');
+        $this->db->order_by('TICKET_LOG.ID_STATUS', 'ASC');
         return $this->db->get("TICKET_LOG", $limit, $start)->result_array();
     }
 
@@ -194,6 +197,7 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
+        $this->db->order_by('TRANSAKSI.ID_TRANSAKSI', 'DESC');
         return $this->db->get("TRANSAKSI", $limit, $start)->result_array();
     }
 
