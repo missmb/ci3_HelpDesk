@@ -124,9 +124,6 @@ class User extends CI_Controller
         //total data
         $data['sum_user'] = $this->User_Model->SumUser();
         $data['sum_ticket'] = $this->User_Model->SumTicket();
-        $data['sum_status_ticket'] = $this->User_Model->SumStatusTicket();
-        // var_dump(count($this->db->where('ID_STATUS', 3)->from('TICKET')));die();
-        // var_dump(strval($this->db->where('ID_STATUS', 1)->from('TICKET')->count_all_results()));die();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);

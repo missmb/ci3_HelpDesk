@@ -9,7 +9,7 @@ class Ticket extends CI_Controller
         parent::__construct();
         is_logged_in();
     }
-    
+
     //ticket list table
     public function index()
     {
@@ -27,9 +27,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -47,15 +47,15 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-        $data['data'] = $this->Ticket_Model->data($config["per_page"], $data['page']);           
- 
+        $data['data'] = $this->Ticket_Model->data($config["per_page"], $data['page']);
+
         $data['pagination'] = $this->pagination->create_links();
- 
+
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -67,7 +67,7 @@ class Ticket extends CI_Controller
     //Fitur Search Ticket
     public function search()
     {
-         //get keyword search
+        //get keyword search
         $keyword = $this->input->post('keyword');
 
         //pagination
@@ -77,9 +77,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -97,14 +97,14 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
         // $data['data'] = $this->Ticket_Model->data($config["per_page"], $data['page']);           
-        $data['data'] = $this->Ticket_Model->get_keyword($keyword, $config["per_page"], $data['page']);           
- 
+        $data['data'] = $this->Ticket_Model->get_keyword($keyword, $config["per_page"], $data['page']);
+
         $data['pagination'] = $this->pagination->create_links();
 
 
@@ -116,7 +116,7 @@ class Ticket extends CI_Controller
         // $data['ticket'] = $this->Ticket_Model->get_keyword($keyword);
         // $aa= $this->db->select('*')->from('TICKET')->like('ID_TICKET', $keyword)->result_array();
         //count all data from table ticket
-        $data['result'] =  count($this->Ticket_Model->get_keyword($keyword,$config["per_page"], $data['page']));
+        $data['result'] =  count($this->Ticket_Model->get_keyword($keyword, $config["per_page"], $data['page']));
 
         // var_dump($data['ticket']);die();
         $this->load->view('template/header', $data);
@@ -179,7 +179,7 @@ class Ticket extends CI_Controller
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
-        $this->load->view('ticket/detail_ticket', $data); 
+        $this->load->view('ticket/detail_ticket', $data);
         $this->load->view('template/footer', $data);
     }
 
@@ -213,9 +213,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -233,13 +233,13 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-        $data['data'] = $this->Ticket_Model->dataLog($config["per_page"], $data['page']);           
- 
+        $data['data'] = $this->Ticket_Model->dataLog($config["per_page"], $data['page']);
+
         $data['pagination'] = $this->pagination->create_links();
 
 
@@ -263,9 +263,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -283,20 +283,20 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
         // $data['data'] = $this->Ticket_Model->data($config["per_page"], $data['page']);           
- 
+
         $data['data'] = $this->Ticket_Model->searchLog($keywordlog, $config["per_page"], $data['page']);
         $data['pagination'] = $this->pagination->create_links();
 
         $data['title'] = 'Ticket Log';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-        
+
         //count all data from table ticket_log
         $data['result'] =  count($this->Ticket_Model->searchLog($keywordlog, $config["per_page"], $data['page']));
 
@@ -323,7 +323,7 @@ class Ticket extends CI_Controller
         $this->load->view('ticketLog/detail_ticketlog', $data);
         $this->load->view('template/footer', $data);
     }
-    
+
 
     // ------------------------------ Transaksi --------------------------------
     //List of Transaksi 
@@ -342,9 +342,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -362,13 +362,13 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-        $data['data'] = $this->Ticket_Model->dataTransaksi($config["per_page"], $data['page']);           
- 
+        $data['data'] = $this->Ticket_Model->dataTransaksi($config["per_page"], $data['page']);
+
         $data['pagination'] = $this->pagination->create_links();
 
 
@@ -382,8 +382,8 @@ class Ticket extends CI_Controller
     //Search of transaksi
     public function searchTransaksi()
     {
-         //get keyword search
-         $keywordlog = $this->input->post('keywordlog');
+        //get keyword search
+        $keywordlog = $this->input->post('keywordlog');
 
         //pagination
         $config['base_url'] = base_url() . 'ticket/searchtransaksi';
@@ -392,9 +392,9 @@ class Ticket extends CI_Controller
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
         $config["num_links"] = floor($choice);
- 
+
         // Create Style pagination for BootStrap v4
-      $config['first_link']       = 'First';
+        $config['first_link']       = 'First';
         $config['last_link']        = 'Last';
         $config['next_link']        = 'Next';
         $config['prev_link']        = 'Prev';
@@ -412,19 +412,19 @@ class Ticket extends CI_Controller
         $config['first_tagl_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tagl_close']  = '</span></li>';
- 
+
         $this->pagination->initialize($config);
         $data['page'] = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
- 
+
         //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-        $data['data'] = $this->Ticket_Model->searchTransaksi($keywordlog, $config["per_page"], $data['page']);    
- 
+        $data['data'] = $this->Ticket_Model->searchTransaksi($keywordlog, $config["per_page"], $data['page']);
+
         $data['pagination'] = $this->pagination->create_links();
 
         $data['title'] = 'Transaksi';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
-       
+
         //count all data from table transaksi
         $data['result'] =  count($this->Ticket_Model->searchTransaksi($keywordlog, $config["per_page"], $data['page']));
 

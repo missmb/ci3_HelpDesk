@@ -11,8 +11,4 @@ class User_Model extends CI_Model
     public function SumTicket(){
         return $this->db->count_all('TICKET');
     }
-
-    public function SumStatusTicket(){
-        return $this->db->count_all('TICKET_LOG');
-    }
 }
