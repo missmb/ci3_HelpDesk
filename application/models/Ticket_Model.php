@@ -14,7 +14,7 @@ class Ticket_Model extends CI_Model
     }
 
     //Fitur Search Ticket
-    public function get_keyword($keyword)
+    public function result_get_keyword($keyword)
     {
         $this->db->select('TICKET.*');
         $this->db->select("to_char(TICKET.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
@@ -36,6 +36,25 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
         return $this->db->get()->result_array();
+    }
+
+    //Fitur Search Ticket
+    public function get_keyword($keyword, $limit, $start)
+    {
+        $this->db->like('TICKET.ID_TICKET', $keyword);
+        $this->db->or_like('TICKET.USER_COMPLAIN', $keyword);
+        $this->db->or_like('TICKET.CONTACT', $keyword);
+        $this->db->or_like('TICKET.PLACE', $keyword);
+        $this->db->or_like('DIVISI.DIVISI', $keyword);
+        $this->db->or_like('TICKET.DATE_INSERT', $keyword);
+        $this->db->or_like('CATEGORY.CATEGORY', $keyword);
+        $this->db->or_like('TICKET.DETAIL', $keyword);
+        $this->db->or_like('STATUS_PROBLEM.STATUS', $keyword);
+        $this->db->or_like('TICKET.DATE_SOLVE', $keyword);
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
+        return $this->db->get("TICKET", $limit, $start)->result_array();
     }
 
     //Details ticket
@@ -117,7 +136,7 @@ class Ticket_Model extends CI_Model
     }
 
     //get search data ticket
-    public function searchLog($keywordlog)
+    public function result_searchLog($keywordlog)
     {
         $this->db->select('TICKET_LOG.*');
         $this->db->select("to_char(TICKET_LOG.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
@@ -141,6 +160,24 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
         return $this->db->get()->result_array();
+    }
+
+    public function searchLog($keywordlog, $limit, $start)
+    {
+        $this->db->like('TICKET_LOG.ID_TICKET_LOG', $keywordlog);
+        $this->db->or_like('TICKET_LOG.USER_COMPLAIN', $keywordlog);
+        $this->db->or_like('TICKET_LOG.CONTACT', $keywordlog);
+        $this->db->or_like('DIVISI.DIVISI', $keywordlog);
+        $this->db->or_like('TICKET_LOG.PLACE', $keywordlog);
+        $this->db->or_like('TICKET_LOG.DATE_INSERT', $keywordlog);
+        $this->db->or_like('CATEGORY.CATEGORY', $keywordlog);
+        $this->db->or_like('TICKET_LOG.DETAIL', $keywordlog);
+        $this->db->or_like('STATUS_PROBLEM.STATUS', $keywordlog);
+        $this->db->or_like('TICKET_LOG.DATE_SOLVE', $keywordlog);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
+        return $this->db->get("TICKET_LOG" , $limit, $start)->result_array();
     }
 
     //insert data ticket to table ticket and status
@@ -214,7 +251,7 @@ class Ticket_Model extends CI_Model
     }
 
     //get search data ticket
-    public function searchTransaksi($keywordlog)
+    public function result_searchTransaksi($keywordlog)
     {
         $this->db->select('TRANSAKSI.*');
         $this->db->select("to_char(TRANSAKSI.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
@@ -241,6 +278,26 @@ class Ticket_Model extends CI_Model
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
         return $this->db->get()->result_array();
+    }
+
+    public function searchTransaksi($keywordlog, $limit, $start)
+    {
+        $this->db->like('TRANSAKSI.ID_TRANSAKSI', $keywordlog);
+        $this->db->or_like('TRANSAKSI.USER_COMPLAIN', $keywordlog);
+        $this->db->or_like('TRANSAKSI.CONTACT', $keywordlog);
+        $this->db->or_like('TRANSAKSI.PLACE', $keywordlog);
+        $this->db->or_like('CATEGORY.CATEGORY', $keywordlog);
+        $this->db->or_like('TRANSAKSI.DETAIL', $keywordlog);
+        $this->db->or_like('STATUS_PROBLEM.STATUS', $keywordlog);
+        $this->db->or_like('TRANSAKSI.HOW_TO_SOLVE', $keywordlog);
+        $this->db->or_like('TRANSAKSI.DATE_INSERT', $keywordlog);
+        $this->db->or_like('TRANSAKSI.DATE_SOLVE', $keywordlog);
+        $this->db->or_like('TRANSAKSI.NOTE', $keywordlog);
+        $this->db->or_like('TRANSAKSI.UPDATE_TIME', $keywordlog);
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
+        $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
+        $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
+        return $this->db->get("TRANSAKSI", $limit, $start)->result_array();
     }
 
     //insert data transaksi to table transaksi and status
