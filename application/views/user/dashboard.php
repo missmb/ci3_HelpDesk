@@ -48,7 +48,7 @@
         </div>
         <!-- /.container-fluid -->
         <div class="text-center">
-            <canvas id="status-ticket" width="1000" height="700" class="col-md-6"></canvas>
+            <canvas id="status-ticket" width="400" height="200"></canvas>
         </div>
     </div>
 </div>

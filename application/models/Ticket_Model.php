@@ -237,6 +237,50 @@ class Ticket_Model extends CI_Model
         return $this->db->query($query)->row_array();
     }
 
+    //edit Ticket
+    public function updatetiket($id)
+    {
+        $this->db->where('ID_TICKET', $id);
+        if ($this->input->post('status_problem') == NULL) {
+            // $solve = '1';
+        } else if ($this->input->post('status_problem') == 1) {
+            $solve = 1;
+        } else if ($this->input->post('status_problem') == 2) {
+            $solve = 2;
+        } else if ($this->input->post('status_problem') == 3) {
+            $solve = 3;
+            $this->db->set('DATE_SOLVE', 'sysdate', false);
+        }
+
+        //insert date with time hours, minutes, and seconds
+        //sysdate is method from oracle databases
+        $this->db->where('ID_TICKET', $id);
+        $this->db->set('UPDATE_TIME', 'sysdate', false);
+        $this->db->update('TICKET', [
+            //    'ID_TICKET' => $ticket_id,
+            //get data from user input
+            'USER_COMPLAIN' => $this->input->post('user_complain'),
+            'CONTACT' => $this->input->post('contact'),
+            'ID_DIVISI' => $this->input->post('divisi'),
+            'PLACE' => $this->input->post('place'),
+            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
+            'NOTE' => $this->input->post('note'),
+            //get data user login
+            'ADMIN' => $this->session->userdata('email'),
+            'ID_TECHNICIAN' => $this->input->post('technician'),
+            'ID_CATEGORY' => $this->input->post('category'),
+            'DETAIL' => $this->input->post('detail'),
+            // status default sedang dikerjakan
+            'ID_STATUS' => $this->input->post('status_problem'),
+        ]);
+    }
+
+    //Delete Ticket
+    public function Delete($id)
+    {
+        var_dump($id);die();
+        $this->db->delete('TICKET', array('ID_TICKET' => $id));
+    }
 
     // ------------------------------ Transaksi ------------------------
 
@@ -388,20 +432,8 @@ class Ticket_Model extends CI_Model
         }
         $this->db->set('UPDATE_TIME', 'sysdate', false);
         $this->db->update('TRANSAKSI', [
-            //get data from user input
-            'USER_COMPLAIN' => $this->input->post('user_complain'),
-            'CONTACT' => $this->input->post('contact'),
-            'ID_DIVISI' => $this->input->post('divisi'),
-            'PLACE' => $this->input->post('place'),
-            //get data user login
-            // 'ADMIN' => $this->session->userdata('email'),
-            'ID_TECHNICIAN' => $this->input->post('technician'),
-            'ID_CATEGORY' => $this->input->post('category'),
-            'DETAIL' => $this->input->post('detail'),
             // status default sedang dikerjakan
             'ID_STATUS' => $solve,
-            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
-            'NOTE' => $this->input->post('note'),
         ]);
     }
 

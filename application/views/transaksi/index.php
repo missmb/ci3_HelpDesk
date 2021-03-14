@@ -71,9 +71,7 @@
                             <td><?= $v['UPDATE_TIME'] ?>
                             </td>
                             <td>
-                                <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-search text-success"></i></a>
-                                <a href="<?= base_url('ticket/edittransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-edit text-primary"></i></a>
-                                <a href="" data-toggle="modal" data-target="#deleteTransaksi"><i class="fas fa-trash text-danger"></i></a>
+                                <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-sync text-success"></i></a>
                             </td>
                         </tr>
                         <?php $no++ ?>
@@ -89,28 +87,4 @@
         </div>
     </div>
 </div>
-</div>
-
-
-<!-- Modal Delete Transaksi -->
-<div class="modal fade" id="deleteTransaksi" tabindex="-1" role="dialog" aria-labelledby="deleteTransaksiLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteTransaksiLabel">Add New Role</h5>
-                <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('ticket/deletetransaksi/' . $v['ID_TRANSAKSI']); ?>" method="POST">
-                <div class="modal-body">
-                    <h3>Are you Sure Want to Delete?</h3>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>

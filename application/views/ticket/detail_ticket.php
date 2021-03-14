@@ -4,13 +4,13 @@
       <!-- Page Heading -->
       <div class="card shadow mb-4">
           <div class="card-header py-3 justify-content-between row">
-              <h3 class="m-0 font-weight-bold text-primary">Detail Ticket</h3>
+              <h3 class="m-0 font-weight-bold text-primary"><?= $title ?></h3>
               <a href="<?= base_url('ticket/print_ticket/' . $ticket['ID_TICKET']); ?>" class="btn btn-danger mb-3">Print Ticket</a>
           </div>
           <div class="row mt-3">
               <div class="col-lg-10 ml-5">
                   <div class="form-group row">
-                      <label for="user_complain" class="col-sm-3 control-label">ID Ticket</label>
+                      <label for="user_complain" class="col-sm-3 control-label" aria-disabled="true">ID Ticket</label>
                       <?= $ticket['ID_TICKET'] ?>
                   </div>
                   <div class="form-group row">

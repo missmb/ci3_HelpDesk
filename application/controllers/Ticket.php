@@ -171,18 +171,64 @@ class Ticket extends CI_Controller
 
     public function detail($id)
     {
-        $data['title'] = 'Detail Ticket';
+        $data['title'] = 'Change Status';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->db->get('USER_MENU')->result_array();
         $data['ticket'] = $this->Ticket_Model->details($id);
+        $data['status'] = $this->db->get('STATUS_PROBLEM')->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
         $this->load->view('template/topbar', $data);
         $this->load->view('ticket/detail_ticket', $data);
         $this->load->view('template/footer', $data);
+        
     }
 
+    public function edit($id)
+    {
+        $data['title'] = 'Edit Ticket';
+        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
+        $data['menu'] = $this->Admin_Model->Sidebar();
+        //get all data from table divisi
+        $data['divisi'] = $this->db->get('DIVISI')->result_array();
+        //get all data from table category
+        $data['category'] = $this->db->get('CATEGORY')->result_array();
+        //get all data from table technician
+        $data['technician'] = $this->db->get('TECHNICIAN')->result_array();
+        $data['ticket'] = $this->Ticket_Model->details($id);
+
+        $this->form_validation->set_rules('user_complain', 'User Complain', 'required');
+        $this->form_validation->set_rules('contact', 'Contact', 'required');
+        $this->form_validation->set_rules('divisi', 'Divisi', 'required');
+        $this->form_validation->set_rules('place', 'Place', 'required');
+        $this->form_validation->set_rules('category', 'Category', 'required');
+
+
+        if ($this->form_validation->run() == false) {
+            // run while nothing validation
+            $this->load->view('template/header', $data);
+            $this->load->view('template/sidebar', $data);
+            $this->load->view('template/topbar', $data);
+            $this->load->view('ticket/edit_ticket', $data);
+            $this->load->view('template/footer', $data);
+        } else {
+            // $this->Ticket_Model->edit_ticket;
+            $this->Ticket_Model->updatetiket($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Ticket Success!</div>');
+            redirect('ticket');
+        }
+    }
+
+    public function delete($id)
+    {
+        var_dump($id);die();
+
+        $this->Ticket_Model->Delete($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
+        redirect('ticket');
+    }
+    
     // print detail ticket
     public function print_ticket($id)
     {
@@ -308,7 +354,7 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
-    //Detail Ticket Login
+    //Detail Ticket Log
     public function detailLog($id)
     {
         $data['title'] = 'Detail Ticket';
@@ -435,10 +481,10 @@ class Ticket extends CI_Controller
         $this->load->view('template/footer', $data);
     }
 
-    //Edit Transaksi
-    public function editTransaksi($id)
+    //Change Status Transaksi
+    public function detailTransaksi($id)
     {
-        $data['title'] = 'Edit Transaksi';
+        $data['title'] = 'Change Status';
         $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
         $data['menu'] = $this->Admin_Model->Sidebar();
         //get all data from table divisi
@@ -463,38 +509,14 @@ class Ticket extends CI_Controller
             $this->load->view('template/header', $data);
             $this->load->view('template/sidebar', $data);
             $this->load->view('template/topbar', $data);
-            $this->load->view('transaksi/edit_transaksi', $data);
+            $this->load->view('transaksi/detail_transaksi', $data);
             $this->load->view('template/footer', $data);
         } else {
             // $this->Ticket_Model->edit_ticket;
-            $this->Ticket_Model->updateTransaksi($id);
+            $this->Ticket_Model->changeStatus($id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Transaksi Success!</div>');
             redirect('ticket/transaksi');
         }
-    }
-
-    //Detail Ticket Login
-    public function detailTransaksi($id)
-    {
-        $data['title'] = 'Detail Ticket';
-        $data['user'] = $this->db->get_where('USER_SYS', ['EMAIL' => $this->session->userdata('email')])->row_array();
-        $data['menu'] = $this->db->get('USER_MENU')->result_array();
-        $data['transaksi'] = $this->Ticket_Model->detailsTransaksi($id);
-
-        // var_dump($data['ticket']);die();
-        $this->load->view('template/header', $data);
-        $this->load->view('template/sidebar', $data);
-        $this->load->view('template/topbar', $data);
-        $this->load->view('transaksi/detail_transaksi', $data);
-        $this->load->view('template/footer', $data);
-    }
-
-
-    public function deleteTransaksi($id)
-    {
-        $this->Ticket_Model->DeleteTransaksi($id);
-        $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Transaksi!</div>');
-        redirect('ticket/transaksi');
     }
 
     // send email to Technician
