@@ -133,6 +133,11 @@
                         }
                     }
                 });
+
+                $(document).on("click", "#deleteTicket", function () {
+     var myId = $(this).data('id');
+     $(".modal-body #bookId").val( myId );
+});
             </script>
             </body>
             </body>

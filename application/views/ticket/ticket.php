@@ -66,12 +66,13 @@
                             <td><?= $v['DATE_INSERT'] ?></td>
                             <td><?= $v['CATEGORY'] ?></td>
                             <td><?= $v['DETAIL'] ?></td>
-                            <td><?= $v['STATUS'] ?>
-                            </td>
+                            <td><?= $v['STATUS'] ?></td>
                             <td class="text-center">
+                                <?= $v['ID_TICKET'] ?>
                                 <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>
                                 <a href="<?= base_url('ticket/edit/' . $v['ID_TICKET']); ?>"><i class="fas fa-edit text-primary"></i></a>
-                                <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
+                                <a href="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>"><i class="fas fa-trash text-danger"></i></a>
+                                <!-- <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a> -->
                             </td>
                         </tr>
                         <?php $no++ ?>
@@ -90,7 +91,7 @@
 
 
 <!-- Modal Delete Ticket -->
-<div class="modal fade" id="deleteTicket" tabindex="-1" role="dialog" aria-labelledby="deleteTicketLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="deleteTicket" tabindex="-1" role="dialog" aria-labelledby="deleteTicketLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -105,10 +106,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-primary delete_button">Delete</button>
                 </div>
             </form>
         </div>
     </div>
-</div>
-</div>
+</div> -->

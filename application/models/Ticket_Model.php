@@ -278,7 +278,6 @@ class Ticket_Model extends CI_Model
     //Delete Ticket
     public function Delete($id)
     {
-        var_dump($id);die();
         $this->db->delete('TICKET', array('ID_TICKET' => $id));
     }
 

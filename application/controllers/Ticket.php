@@ -182,7 +182,6 @@ class Ticket extends CI_Controller
         $this->load->view('template/topbar', $data);
         $this->load->view('ticket/detail_ticket', $data);
         $this->load->view('template/footer', $data);
-        
     }
 
     public function edit($id)
@@ -222,13 +221,11 @@ class Ticket extends CI_Controller
 
     public function delete($id)
     {
-        var_dump($id);die();
-
         $this->Ticket_Model->Delete($id);
         $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Success Delete Ticket!</div>');
         redirect('ticket');
     }
-    
+
     // print detail ticket
     public function print_ticket($id)
     {
@@ -519,7 +516,8 @@ class Ticket extends CI_Controller
         }
     }
 
-    public function changeStatus($id){
+    public function changeStatus($id)
+    {
         $this->Ticket_Model->updateTransaksi($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Status Success!</div>');
         redirect('ticket/transaksi');
