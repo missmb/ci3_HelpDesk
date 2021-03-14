@@ -58,7 +58,7 @@
                     <?php foreach ($data as $v) : ?>
                         <tr>
                             <td><?= $no ?></td>
-                            <td><?= $v['ID_TRANSAKSI'] ?></td>
+                            <td><a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><?= $v['ID_TRANSAKSI'] ?></a></td>
                             <td><?= $v['USER_COMPLAIN'] ?></td>
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>

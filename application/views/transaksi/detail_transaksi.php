@@ -23,7 +23,7 @@
                           </select>
                       </div>
                       <div class="form-group row">
-                          <label for="user_complain" class="col-sm-3 control-label">User Complain</label>
+                          <label for="user_complain" class="col-sm-3 control-label" name="user_complain">User Complain</label>
                           <?= $transaksi['USER_COMPLAIN'] ?>
                       </div>
                       <div class="form-group row">

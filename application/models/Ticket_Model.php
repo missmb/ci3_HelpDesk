@@ -404,6 +404,7 @@ class Ticket_Model extends CI_Model
     //edit Transaksi
     public function updateTransaksi($id)
     {
+        // var_dump($this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->USER_COMPLAIN);die();
         //insert date with time hours, minutes, and seconds
         //sysdate is method from oracle databases
         if ($this->input->post('status_problem') == NULL) {
@@ -457,19 +458,19 @@ class Ticket_Model extends CI_Model
         $this->db->insert('TICKET_LOG', [
             'ID_TICKET_LOG' => $id,
             //get data from user input
-            'USER_COMPLAIN' => $this->input->post('user_complain'),
-            'CONTACT' => $this->input->post('contact'),
-            'ID_DIVISI' => $this->input->post('divisi'),
-            'PLACE' => $this->input->post('place'),
+            'USER_COMPLAIN' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->USER_COMPLAIN,
+            'CONTACT' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->CONTACT,
+            'ID_DIVISI' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->ID_DIVISI,
+            'PLACE' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->PLACE,
             //get data user login
             'ADMIN' => $this->session->userdata('email'),
-            'ID_TECHNICIAN' => $this->input->post('technician'),
-            'ID_CATEGORY' => $this->input->post('category'),
-            'DETAIL' => $this->input->post('detail'),
+            'ID_TECHNICIAN' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->ID_TECHNICIAN,
+            'ID_CATEGORY' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->ID_CATEGORY,
+            'DETAIL' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->DETAIL,
             // status default sedang dikerjakan
             'ID_STATUS' => $solve,
-            'HOW_TO_SOLVE' => $this->input->post('how_to_solve'),
-            'NOTE' => $this->input->post('note'),
+            'HOW_TO_SOLVE' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->HOW_TO_SOLVE,
+            'NOTE' => $this->db->get_where('TICKET', array('ID_TICKET' => $id))->row()->NOTE,
         ]);
     }
 

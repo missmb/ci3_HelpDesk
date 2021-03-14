@@ -519,6 +519,12 @@ class Ticket extends CI_Controller
         }
     }
 
+    public function changeStatus($id){
+        $this->Ticket_Model->updateTransaksi($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Edit Status Success!</div>');
+        redirect('ticket/transaksi');
+    }
+
     // send email to Technician
     private function _sendEmail()
     {
