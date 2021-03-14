@@ -33,7 +33,6 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -50,7 +49,6 @@
                         <th>Status</th>
                         <th>Date Solve</th>
                         <th>Update Time</th>
-                        <th class="text-center">Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -58,8 +56,8 @@
                     <?php foreach ($data as $v) : ?>
                         <tr>
                             <td><?= $no ?></td>
-                            <td><?= $v['ID_TICKET_LOG'] ?></td>
-                            <td><?= $v['USER_COMPLAIN'] ?></td>
+                            <td><a href="<?= base_url('ticket/detaillog/' . $v['ID_TICKET_LOG']); ?>"><?= $v['ID_TICKET_LOG'] ?></a></td>
+                            <td><a href="<?= base_url('ticket/detaillog/' . $v['ID_TICKET_LOG']); ?>"><?= $v['USER_COMPLAIN'] ?></a></td>
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>
                             <td><?= $v['PLACE'] ?></td>
@@ -68,11 +66,7 @@
                             <td><?= $v['DETAIL'] ?></td>
                             <td><?= $v['STATUS'] ?>
                             <td><?= $v['DATE_SOLVE'] ?>
-                            <td><?= $v['UPDATE_TIME'] ?>
-                            </td>
-                            <td class="text-center">
-                                <a href="<?= base_url('ticket/detaillog/' . $v['ID_TICKET_LOG']); ?>"><i class="fas fa-search text-success"></i></a>
-                            </td>
+                            <td><?= $v['UPDATE_TIME'] ?></td>
                         </tr>
                         <?php $no++ ?>
                     <?php endforeach; ?>
