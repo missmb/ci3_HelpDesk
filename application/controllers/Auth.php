@@ -102,10 +102,12 @@ class Auth extends CI_Controller
                 'DATE_CREATED' => Date('d-M-y')
             ];
 
-            $int = 33;
+            $int = 22;
             $strong = true;
             // base64_encode(random_bytes(33));
-            $token = base64_encode(openssl_random_pseudo_bytes($int));
+            // $token = base64_encode(openssl_random_pseudo_bytes($int));
+            $int = 33;
+            $token =  str_replace(['-','_', '+','/'], ['aza', 'ak', 'ac', 'kud'],base64_encode(openssl_random_pseudo_bytes($int)));
             $user_token = [
                 'EMAIL' => $email,
                 'TOKEN' => $token,
@@ -168,7 +170,6 @@ class Auth extends CI_Controller
 
         if ($user) {
             $user_token = $this->db->get_where('USER_TOKEN', ['TOKEN' => $token])->row_array();
-            // var_dump($token, $user_token);DIE();
             if ($user_token) {
                 if (time() - $user_token['DATE_CREATED' < (60 * 60 * 24)]) {
                     $this->db->set('IS_ACTIVE', 1);
@@ -221,17 +222,20 @@ class Auth extends CI_Controller
             $this->load->view('template/auth_footer');
         } else {
             $email = $this->input->post('email');
-            $user = $this->db->get_where('USER_SYS', ['email' => $email, 'is_active' => 1])->row_array();
+            $user = $this->db->get_where('USER_SYS', ['EMAIL' => $email, 'IS_ACTIVE' => 1])->row_array();
 
             if ($user) {
-                $token = base64_encode(random_bytes(33));
+                // $token = base64_encode(random_bytes(33));
+                $int = 33;
+            $token =  str_replace(['-','_', '+','/'], ['aza', 'ak', 'ac', 'kud'],base64_encode(openssl_random_pseudo_bytes($int)));
+
                 $user_token = [
-                    'email' => $email,
-                    'token' => $token,
-                    'date_created' => time()
+                    'EMAIL' => $email,
+                    'TOKEN' => $token,
+                    'DATE_CREATED' => Date('d-M-y')
                 ];
 
-                $this->db->insert('user_token', $user_token);
+                $this->db->insert('USER_TOKEN', $user_token);
                 $this->_sendEmail($token, 'forgot');
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Please check your email to reset your password</div>');
                 redirect('auth/forgotpassword');
@@ -248,10 +252,10 @@ class Auth extends CI_Controller
         $token = $this->input->get('token');
 
 
-        $user = $this->db->get_where('USER_SYS', ['email' => $email])->row_array();
+        $user = $this->db->get_where('USER_SYS', ['EMAIL' => $email])->row_array();
 
         if ($user) {
-            $user_token = $this->db->get_where('user_token', ['token' => $token])->row_array();
+            $user_token = $this->db->get_where('USER_TOKEN', ['TOKEN' => $token])->row_array();
 
             if ($user_token) {
                 $this->session->set_userdata('reset_email', $email);
