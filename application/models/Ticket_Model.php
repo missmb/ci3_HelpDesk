@@ -6,18 +6,26 @@ class Ticket_Model extends CI_Model
 {
     function data($limit, $start)
     {
+        $this->db->select('TICKET.*');
+        $this->db->select("to_char(TICKET.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTTICKET");
+        $this->db->select("to_char(TICKET.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVETICKET");
+        $this->db->select("to_char(TICKET.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMETICKET");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TICKET');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
         $this->db->order_by('TICKET.ID_TICKET', 'DESC');
-        return $this->db->get("TICKET", $limit, $start)->result_array();
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //Fitur Search Ticket
     public function result_get_keyword($keyword)
     {
         $this->db->select('TICKET.*');
-        $this->db->select("to_char(TICKET.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
         $this->db->select('DIVISI.DIVISI');
         $this->db->select('CATEGORY.CATEGORY');
         $this->db->select('STATUS_PROBLEM.STATUS');
@@ -41,6 +49,14 @@ class Ticket_Model extends CI_Model
     //Fitur Search Ticket
     public function get_keyword($keyword, $limit, $start)
     {
+        $this->db->select('TICKET.*');
+        $this->db->select("to_char(TICKET.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTTICKET");
+        $this->db->select("to_char(TICKET.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVETICKET");
+        $this->db->select("to_char(TICKET.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMETICKET");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TICKET');
         $this->db->like('TICKET.ID_TICKET', $keyword);
         $this->db->or_like('TICKET.USER_COMPLAIN', $keyword);
         $this->db->or_like('TICKET.CONTACT', $keyword);
@@ -52,9 +68,11 @@ class Ticket_Model extends CI_Model
         $this->db->or_like('STATUS_PROBLEM.STATUS', $keyword);
         $this->db->or_like('TICKET.DATE_SOLVE', $keyword);
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET.ID_CATEGORY');
-        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET.ID_STATUS');
-        return $this->db->get("TICKET", $limit, $start)->result_array();
+        $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET.ID_DIVISI');
+        $this->db->order_by('TICKET.ID_TICKET', 'DESC');
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //Details ticket
@@ -125,23 +143,30 @@ class Ticket_Model extends CI_Model
 
     // ------------------------------ Ticket Log ------------------------
 
+    //get all data ticket
     function dataLog($limit, $start)
     {
+        $this->db->select('TICKET_LOG.*');
+        $this->db->select("to_char(TICKET_LOG.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTLOG");
+        $this->db->select("to_char(TICKET_LOG.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVELOG");
+        $this->db->select("to_char(TICKET_LOG.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMELOG");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TICKET_LOG');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
         $this->db->order_by('TICKET_LOG.ID_TICKET_LOG', 'DESC');
         $this->db->order_by('TICKET_LOG.ID_STATUS', 'ASC');
-        return $this->db->get("TICKET_LOG", $limit, $start)->result_array();
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //get search data ticket
     public function result_searchLog($keywordlog)
     {
         $this->db->select('TICKET_LOG.*');
-        $this->db->select("to_char(TICKET_LOG.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERT");
-        $this->db->select("to_char(TICKET_LOG.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVE");
-        $this->db->select("to_char(TICKET_LOG.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIME");
         $this->db->select('DIVISI.DIVISI');
         $this->db->select('CATEGORY.CATEGORY');
         $this->db->select('STATUS_PROBLEM.STATUS');
@@ -164,6 +189,14 @@ class Ticket_Model extends CI_Model
 
     public function searchLog($keywordlog, $limit, $start)
     {
+        $this->db->select('TICKET_LOG.*');
+        $this->db->select("to_char(TICKET_LOG.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTLOG");
+        $this->db->select("to_char(TICKET_LOG.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVELOG");
+        $this->db->select("to_char(TICKET_LOG.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMELOG");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TICKET_LOG');
         $this->db->like('TICKET_LOG.ID_TICKET_LOG', $keywordlog);
         $this->db->or_like('TICKET_LOG.USER_COMPLAIN', $keywordlog);
         $this->db->or_like('TICKET_LOG.CONTACT', $keywordlog);
@@ -177,7 +210,10 @@ class Ticket_Model extends CI_Model
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TICKET_LOG.ID_DIVISI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TICKET_LOG.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TICKET_LOG.ID_STATUS');
-        return $this->db->get("TICKET_LOG" , $limit, $start)->result_array();
+        $this->db->order_by('TICKET_LOG.ID_TICKET_LOG', 'DESC');
+        $this->db->order_by('TICKET_LOG.ID_STATUS', 'ASC');
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //insert data ticket to table ticket and status
@@ -278,6 +314,7 @@ class Ticket_Model extends CI_Model
     //Delete Ticket
     public function Delete($id)
     {
+        var_dump($id);die();
         $this->db->delete('TICKET', array('ID_TICKET' => $id));
     }
 
@@ -286,11 +323,20 @@ class Ticket_Model extends CI_Model
     //list of transaksi
     function dataTransaksi($limit, $start)
     {
+        $this->db->select('TRANSAKSI.*');
+        $this->db->select("to_char(TRANSAKSI.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTTRANSAKSI");
+        $this->db->select("to_char(TRANSAKSI.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVETRANSAKSI");
+        $this->db->select("to_char(TRANSAKSI.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMETRANSAKSI");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TRANSAKSI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
         $this->db->order_by('TRANSAKSI.ID_TRANSAKSI', 'DESC');
-        return $this->db->get("TRANSAKSI", $limit, $start)->result_array();
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //get search data ticket
@@ -325,6 +371,14 @@ class Ticket_Model extends CI_Model
 
     public function searchTransaksi($keywordlog, $limit, $start)
     {
+        $this->db->select('TRANSAKSI.*');
+        $this->db->select("to_char(TRANSAKSI.DATE_INSERT,'dd-mm-yyy hh24:mi') DATE_INSERTTRANSAKSI");
+        $this->db->select("to_char(TRANSAKSI.DATE_SOLVE,'dd-mm-yyy hh24:mi') DATE_SOLVETRANSAKSI");
+        $this->db->select("to_char(TRANSAKSI.UPDATE_TIME,'dd-mm-yyy hh24:mi') UPDATE_TIMETRANSAKSI");
+        $this->db->select('DIVISI.DIVISI');
+        $this->db->select('CATEGORY.CATEGORY');
+        $this->db->select('STATUS_PROBLEM.STATUS');
+        $this->db->from('TRANSAKSI');
         $this->db->like('TRANSAKSI.ID_TRANSAKSI', $keywordlog);
         $this->db->or_like('TRANSAKSI.USER_COMPLAIN', $keywordlog);
         $this->db->or_like('TRANSAKSI.CONTACT', $keywordlog);
@@ -340,7 +394,9 @@ class Ticket_Model extends CI_Model
         $this->db->join('DIVISI', 'DIVISI.ID_DIVISI = TRANSAKSI.ID_DIVISI');
         $this->db->join('CATEGORY', 'CATEGORY.ID_CATEGORY = TRANSAKSI.ID_CATEGORY');
         $this->db->join('STATUS_PROBLEM', 'STATUS_PROBLEM.ID_STATUS = TRANSAKSI.ID_STATUS');
-        return $this->db->get("TRANSAKSI", $limit, $start)->result_array();
+        $this->db->order_by('TRANSAKSI.ID_TRANSAKSI', 'DESC');
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
     }
 
     //insert data transaksi to table transaksi and status

@@ -63,12 +63,12 @@
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>
                             <td><?= $v['PLACE'] ?></td>
-                            <td><?= $v['DATE_INSERT'] ?></td>
+                            <td><?= $v['DATE_INSERTTRANSAKSI'] ?></td>
                             <td><?= $v['CATEGORY'] ?></td>
                             <td><?= $v['DETAIL'] ?></td>
                             <td><?= $v['STATUS'] ?>
-                            <td><?= $v['DATE_SOLVE'] ?>
-                            <td><?= $v['UPDATE_TIME'] ?>
+                            <td><?= $v['DATE_SOLVETRANSAKSI'] ?>
+                            <td><?= $v['UPDATE_TIMETRANSAKSI'] ?>
                             </td>
                             <td>
                                 <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-sync text-success"></i></a>

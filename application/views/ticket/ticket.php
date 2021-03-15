@@ -63,7 +63,7 @@
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>
                             <td><?= $v['PLACE'] ?></td>
-                            <td><?= $v['DATE_INSERT'] ?></td>
+                            <td><?= $v['DATE_INSERTTICKET'] ?></td>
                             <td><?= $v['CATEGORY'] ?></td>
                             <td><?= $v['DETAIL'] ?></td>
                             <td><?= $v['STATUS'] ?></td>
@@ -72,7 +72,7 @@
                                 <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>
                                 <a href="<?= base_url('ticket/edit/' . $v['ID_TICKET']); ?>"><i class="fas fa-edit text-primary"></i></a>
                                 <a href="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>"><i class="fas fa-trash text-danger"></i></a>
-                                <!-- <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a> -->
+                                <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
                         <?php $no++ ?>
@@ -88,10 +88,11 @@
         </div>
     </div>
 </div>
+</div>
 
 
 <!-- Modal Delete Ticket -->
-<!-- <div class="modal fade" id="deleteTicket" tabindex="-1" role="dialog" aria-labelledby="deleteTicketLabel" aria-hidden="true">
+<div class="modal fade" id="deleteTicket" tabindex="-1" role="dialog" aria-labelledby="deleteTicketLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,7 +103,7 @@
             </div>
             <form action="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>" method="POST">
                 <div class="modal-body">
-                    <h3>Are you Sure Want to Delete?</h3>
+                    <h3>Are you Sure Want to Delete <?= $v['ID_TICKET']; ?> ?>?</h3>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -111,4 +112,4 @@
             </form>
         </div>
     </div>
-</div> -->
+</div>

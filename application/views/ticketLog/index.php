@@ -61,12 +61,12 @@
                             <td><?= $v['CONTACT'] ?></td>
                             <td><?= $v['DIVISI'] ?></td>
                             <td><?= $v['PLACE'] ?></td>
-                            <td><?= $v['DATE_INSERT'] ?></td>
+                            <td><?= $v['DATE_INSERTLOG'] ?></td>
                             <td><?= $v['CATEGORY'] ?></td>
                             <td><?= $v['DETAIL'] ?></td>
                             <td><?= $v['STATUS'] ?>
-                            <td><?= $v['DATE_SOLVE'] ?>
-                            <td><?= $v['UPDATE_TIME'] ?></td>
+                            <td><?= $v['DATE_SOLVELOG'] ?>
+                            <td><?= $v['UPDATE_TIMELOG'] ?></td>
                         </tr>
                         <?php $no++ ?>
                     <?php endforeach; ?>
