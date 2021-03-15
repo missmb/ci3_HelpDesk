@@ -71,8 +71,8 @@
                                 <?= $v['ID_TICKET'] ?>
                                 <a href="<?= base_url('ticket/detail/' . $v['ID_TICKET']); ?>"><i class="fas fa-search text-success"></i></a>
                                 <a href="<?= base_url('ticket/edit/' . $v['ID_TICKET']); ?>"><i class="fas fa-edit text-primary"></i></a>
-                                <a href="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>"><i class="fas fa-trash text-danger"></i></a>
-                                <a href="" data-toggle="modal" data-target="#deleteTicket"><i class="fas fa-trash text-danger"></i></a>
+                                <!-- <a href="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>"><i class="fas fa-trash text-danger"></i></a> -->
+                                <a href="" data-toggle="modal" data-target="#deleteTicket" data-id="<?= $v['ID_TICKET'] ?>" class="delete-toggle" ><i class="fas fa-trash text-danger"></i></a>
                             </td>
                         </tr>
                         <?php $no++ ?>
@@ -101,15 +101,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('ticket/delete/' . $v['ID_TICKET']); ?>" method="POST">
+            <!-- <form action="" method="POST" class="form-delete-ticket"> -->
                 <div class="modal-body">
-                    <h3>Are you Sure Want to Delete <?= $v['ID_TICKET']; ?> ?>?</h3>
+                    <h3>Are you Sure Want to Delete ?</h3>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary delete_button">Delete</button>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
     </div>
 </div>

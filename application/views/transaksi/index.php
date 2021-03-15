@@ -70,7 +70,7 @@
                             <td><?= $v['DATE_SOLVETRANSAKSI'] ?>
                             <td><?= $v['UPDATE_TIMETRANSAKSI'] ?>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <a href="<?= base_url('ticket/detailtransaksi/' . $v['ID_TRANSAKSI']); ?>"><i class="fas fa-sync text-success"></i></a>
                             </td>
                         </tr>

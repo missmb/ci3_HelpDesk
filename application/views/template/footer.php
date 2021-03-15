@@ -109,11 +109,29 @@
                         $("#tech").prop('disabled', false);
                     }
                 });
+
+                $('.delete-toggle').on('click', function() {
+                    const ticketId = $(this).data('id');
+                    const link = "<?= base_url('ticket/delete/'); ?>" + ticketId;
+                    console.log(link);
+                    console.log(ticketId);
+                    // $(this).find('.form-delete-ticket').action(link)
+
+                    $('.delete_button').on('click', function() {
+                        $.ajax({
+                        url: "<?= base_url('ticket/delete/'); ?>" + ticketId,
+                        success: function() {
+                            document.location.href = "<?= base_url('ticket/delete/'); ?>" + ticketId;
+                        }
+                    });
+
+                    });
+                });
             </script>
-            
+
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
             <script type="text/javascript">
-            //chart status ticket dashboard
+                //chart status ticket dashboard
                 new Chart(document.getElementById("status-ticket"), {
                     type: 'doughnut',
                     data: {
@@ -122,8 +140,9 @@
                             label: "Status Ticket",
                             backgroundColor: ["#3e95cd", "#8e5ea2", "#00ff00"],
                             data: [<?= strval($this->db->where('ID_STATUS', 1)->from('TICKET')->count_all_results()); ?>,
-                             <?= strval($this->db->where('ID_STATUS', 2)->from('TICKET')->count_all_results()); ?>,
-                              <?= strval($this->db->where('ID_STATUS', 3)->from('TICKET')->count_all_results()); ?>]
+                                <?= strval($this->db->where('ID_STATUS', 2)->from('TICKET')->count_all_results()); ?>,
+                                <?= strval($this->db->where('ID_STATUS', 3)->from('TICKET')->count_all_results()); ?>
+                            ]
                         }]
                     },
                     options: {
@@ -133,11 +152,6 @@
                         }
                     }
                 });
-
-                $(document).on("click", "#deleteTicket", function () {
-     var myId = $(this).data('id');
-     $(".modal-body #bookId").val( myId );
-});
             </script>
             </body>
             </body>
